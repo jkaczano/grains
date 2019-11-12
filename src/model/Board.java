@@ -29,7 +29,7 @@ public class Board {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 board[i][j].fillCell("");
-                board[i][j].intrusion=1;
+                //board[i][j].intrusion=0;
             }
         }
     }

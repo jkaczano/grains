@@ -13,11 +13,11 @@ import static java.lang.Math.abs;
  */
 public class GameLogic {
 
-    int sizeOfCell;
+    public int sizeOfCell,intrSize;
     int rows, columns;
     double canvasHeight, canvasWidth;
     int grainsCount;
-    public String choice;
+    public String choice,intrType;
     Boolean period = true;
 
     RadioButton periodRadioButton;
@@ -25,7 +25,7 @@ public class GameLogic {
     public Drawing drawing;
     public GraphicsContext graphicsContext;
 
-    public GameLogic(int sizeOfCell, double canvasHeight, double canvasWidth, Canvas canvas, int grainsCount, String choice) {
+    public GameLogic(int sizeOfCell, double canvasHeight, double canvasWidth, Canvas canvas, int grainsCount, String choice,int intrSize,String intrType) {
         graphicsContext = canvas.getGraphicsContext2D();
         this.sizeOfCell = sizeOfCell;
         this.canvasHeight = canvasHeight;
@@ -34,7 +34,8 @@ public class GameLogic {
         this.columns = (int)canvasWidth / sizeOfCell;
         this.grainsCount = grainsCount;
         this.choice = choice;
-
+        this.intrSize = intrSize;
+        this.intrType = intrType;
         board = new Board(rows, columns);
         drawing = new Drawing(graphicsContext, canvasHeight, canvasWidth, sizeOfCell, grainsCount);
     }
@@ -44,34 +45,38 @@ public class GameLogic {
     }
 
     public Board calculateIterationGrains() {
+        boolean st=false;
         Board newBoard = new Board(rows, columns);
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
 
-                if (board.board[i][j].state != ""&&board.board[i][j].intrusion!=0) {
-                    newBoard.board[i][j].state = board.board[i][j].state;
-                    switch (choice) {
+        while(!st) {
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < columns; j++) {
 
-                        case "Moore": {
-                            mooreSurroundingFill(board, newBoard, i, j);
-                            break;
-                        }
-                        case "Von Neumann": {
-                            vonNeumannSurrounding(board, newBoard, i, j);
-                            break;
-                        }
-                        default: {
-                            vonNeumannSurrounding(board, newBoard, i, j);
-                            break;
+                    if (board.board[i][j].state != "" && board.board[i][j].intrusion != 1) {
+                        newBoard.board[i][j].state = board.board[i][j].state;
+                        switch (choice) {
+                            case "Moore": {
+                                mooreSurroundingFill(board, newBoard, i, j);
+                                break;
+                            }
+                            case "Von Neumann": {
+                                vonNeumannSurrounding(board, newBoard, i, j);
+                                break;
+                            }
+                            default: {
+                                vonNeumannSurrounding(board, newBoard, i, j);
+                                break;
+                            }
                         }
                     }
-
-
                 }
-
             }
+            board=newBoard;
+            newBoard.clearBoard();
+
+            st = cntr(board);
         }
-        return newBoard;
+        return board;
     }
 
 
@@ -99,11 +104,9 @@ public class GameLogic {
 
         String grainName = board.board[i][j].state;
 
-        int tmpX, tmpY;
         for (int x = startX; x <= endX; x++) {
             for (int y = startY; y <= endY; y++) {
                 fillNewBoard(board, newBoard, grainName, x, y);
-
             }
         }
     }
@@ -178,19 +181,55 @@ public class GameLogic {
     }
 
     public void intrusion() {
-        String grainName = "grain";
+        //String grainName = "grain";
         Random random = new Random();
-        System.out.println("rows = " + rows);
-        System.out.println("columns = " + columns);
+        //System.out.println("rows = " + rows);
+        //System.out.println("columns = " + columns);
         for (int i = 1; i <= grainsCount; i++) {
             int x = abs(random.nextInt() % (rows - 2) + 1);
             int y = abs(random.nextInt() % (columns - 2) + 1);
             System.out.println("x = " + x + "y = " + y);
-            board.board[x][y].state = grainName + i;
-            board.board[x][y].intrusion = 0;
-            System.out.println(board.board[x][y].state);
+            if(intrType=="Square") {
+                for (int k = (int)(x - intrSize/2.0); k < x + intrSize/2.0; k++) {
+                    for (int m = (int)(y - intrSize/2.0); m < y + intrSize/2.0; m++) {
+                        if(k<canvasHeight && k>1 && m>1 && m<canvasWidth) {
+                            board.board[k][m].state = "i";
+                            board.board[k][m].intrusion = 1;
+                        }
+                    }
+                }
+            }
+            else{
+                double dist=0;
+                for (int k = x - intrSize; k < x + intrSize; k++) {
+                    for (int m = y - intrSize; m < y + intrSize; m++) {
+                        dist=Math.sqrt((x-k)*(x-k)+(y-m)*(y-m));
+                        if(dist<=intrSize && k>1 && m>1 && k<canvasHeight && m<canvasWidth) {
+                            board.board[k][m].state = "i";
+                            board.board[k][m].intrusion = 1;
+                        }
+                    }
+                }
+            }
 
+            System.out.println(board.board[x][y].state);
         }
         drawing.drawBoardString(board,5);
+    }
+
+    public boolean cntr(Board brd){
+        int counter = 0;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                if(brd.board[i][j].state==""){
+                    counter++;
+                }
+            }
+        }
+        System.out.println(counter);
+        if(counter>0)
+            return false;
+        else
+            return true;
     }
 }

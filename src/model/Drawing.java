@@ -29,14 +29,17 @@ public class Drawing {
 
 
     public void drawBoardString(Board board,int size){
+        String key = "grain1";
+            for (int i = 0; i < canvasHeight/sizeOfCell; i++) {
+                for (int j = 0; j < canvasWidth/sizeOfCell; j++) {
+                    if(board.board[i][j].intrusion==1)
+                        graphicsContext.setFill(Color.BLACK);
+                    else{
+                    key = board.board[i][j].state;
 
-        for (int i = 0; i < canvasHeight/sizeOfCell; i++) {
-            for (int j = 0; j < canvasWidth/sizeOfCell; j++) {
-                String key = board.board[i][j].state;
-
-                graphicsContext.setFill(colorHashMap.get(key));
-                graphicsContext.fillRect(i * sizeOfCell, j * sizeOfCell,sizeOfCell*size, sizeOfCell * size);
-            }
+                    graphicsContext.setFill(colorHashMap.get(key));}
+                    graphicsContext.fillRect(i * sizeOfCell, j * sizeOfCell,sizeOfCell*size, sizeOfCell * size);
+                }
         }
     }
 

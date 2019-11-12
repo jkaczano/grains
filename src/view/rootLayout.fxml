@@ -2,6 +2,7 @@
 
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -34,6 +35,8 @@
           </Menu>
         </menus>
       </MenuBar>
-      <Button layoutX="449.0" layoutY="213.0" mnemonicParsing="false" onAction="#intrusion" text="Intrusion" />
+      <Button layoutX="472.0" layoutY="231.0" mnemonicParsing="false" onAction="#intrusion" text="Intrusion" />
+      <TextField fx:id="intr" layoutX="523.0" layoutY="263.0" prefHeight="25.0" prefWidth="36.0" text="5" />
+      <ComboBox fx:id="comboBox" layoutX="412.0" layoutY="263.0" prefHeight="25.0" prefWidth="103.0" />
    </children>
 </AnchorPane>

@@ -1,10 +1,11 @@
 package view;
 
-import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelWriter;
@@ -29,7 +30,7 @@ public class Controller {
 
     int sizeOfCell;
     int canvasHeight, canvasWidth;
-    int grainsCount;
+    int grainsCount, intrSize;
     Thread thread;
     @FXML
     Canvas canvas;
@@ -38,7 +39,11 @@ public class Controller {
     @FXML
     TextField y;
     @FXML
+    TextField intr;
+    @FXML
     TextField grainsCounttxt;
+    @FXML
+    ComboBox comboBox;
     Board board;
 
     public GraphicsContext graphicsContext;
@@ -52,6 +57,10 @@ public class Controller {
         x.setText("300");
         y.setText("300");
         grainsCounttxt.setText("10");
+        comboBox.setItems(FXCollections.observableArrayList(
+                "Square",
+                "Circle"
+        ));
     }
 
     @FXML
@@ -59,10 +68,12 @@ public class Controller {
         sizeOfCell = 1;
         canvasHeight = Integer.parseInt(x.getText());
         canvasWidth = Integer.parseInt(y.getText());
+        intrSize = Integer.parseInt(intr.getText());
         grainsCount = Integer.parseInt(grainsCounttxt.getText());
         String choice = "Moore";
+        String intrType = String.valueOf(comboBox.getValue());
 
-        gameLogic = new GameLogic(sizeOfCell, canvasHeight, canvasWidth, canvas, grainsCount, choice);
+        gameLogic = new GameLogic(sizeOfCell, canvasHeight, canvasWidth, canvas, grainsCount, choice,intrSize,intrType);
         gameLogic.drawing.clearBoard();
         drawOnCanvas();
     }
@@ -91,19 +102,8 @@ public class Controller {
 
 
     @FXML
-    void handleStartButton() throws InterruptedException {
-        running = true;
-        thread = new Thread(() -> {
-            while (running) {
-                Platform.runLater(() -> startFunction());
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        thread.start();
+    void handleStartButton(){
+        startFunction();
     }
 
     private void startFunction() {
@@ -207,6 +207,9 @@ public class Controller {
     }
     @FXML
     public void intrusion(){
+
+        gameLogic.intrSize = Integer.parseInt(intr.getText());
+        gameLogic.intrType = String.valueOf(comboBox.getValue());
         gameLogic.intrusion();
     }
 
