@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
@@ -38,5 +39,6 @@
       <Button layoutX="472.0" layoutY="231.0" mnemonicParsing="false" onAction="#intrusion" text="Intrusion" />
       <TextField fx:id="intr" layoutX="523.0" layoutY="263.0" prefHeight="25.0" prefWidth="36.0" text="5" />
       <ComboBox fx:id="comboBox" layoutX="412.0" layoutY="263.0" prefHeight="25.0" prefWidth="103.0" />
+      <ProgressBar fx:id="progressBar" layoutX="81.0" layoutY="360.0" prefWidth="200.0" progress="0.0" />
    </children>
 </AnchorPane>

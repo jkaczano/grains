@@ -16,7 +16,7 @@ public class GameLogic {
     public int sizeOfCell,intrSize;
     int rows, columns;
     double canvasHeight, canvasWidth;
-    int grainsCount;
+    public int grainsCount;
     public String choice,intrType;
     Boolean period = true;
 
@@ -48,7 +48,7 @@ public class GameLogic {
         boolean st=false;
         Board newBoard = new Board(rows, columns);
 
-        while(!st) {
+        //while(!st) {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns; j++) {
 
@@ -60,11 +60,11 @@ public class GameLogic {
                                 break;
                             }
                             case "Von Neumann": {
-                                vonNeumannSurrounding(board, newBoard, i, j);
+                                //vonNeumannSurrounding(board, newBoard, i, j);
                                 break;
                             }
                             default: {
-                                vonNeumannSurrounding(board, newBoard, i, j);
+                                //vonNeumannSurrounding(board, newBoard, i, j);
                                 break;
                             }
                         }
@@ -72,10 +72,13 @@ public class GameLogic {
                 }
             }
             board=newBoard;
-            newBoard.clearBoard();
-
-            st = cntr(board);
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                //newBoard.board[i][j].state="";
+            }
         }
+            //st = cntr(board);
+        //}
         return board;
     }
 
@@ -91,7 +94,7 @@ public class GameLogic {
             if (y == -1) tmpY = 0;
             if (y == rows) tmpY = rows - 1;
 
-        if (board.board[tmpX][tmpY].state == "")// && newBoard.board[tmpX][tmpY].state == "")
+        if (board.board[tmpX][tmpY].state == "" && board.board[tmpX][tmpY].intrusion != 1)
             newBoard.board[tmpX][tmpY].state = grainName;
     }
 
@@ -180,15 +183,39 @@ public class GameLogic {
         drawing.drawBoardString(board,1);
     }
 
-    public void intrusion() {
+    public void intrusion(Boolean finish) {
+        System.out.println(finish);
         //String grainName = "grain";
         Random random = new Random();
+        int x=0,y=0,counter;
         //System.out.println("rows = " + rows);
         //System.out.println("columns = " + columns);
         for (int i = 1; i <= grainsCount; i++) {
-            int x = abs(random.nextInt() % (rows - 2) + 1);
-            int y = abs(random.nextInt() % (columns - 2) + 1);
+            if(finish)
+            {
+                counter=8;
+                while(counter>7){
+                    x = abs(random.nextInt() % (rows - 2) + 1);
+                    y = abs(random.nextInt() % (columns - 2) + 1);
+                    int startX = x - 1;
+                    int startY = y - 1;
+                    int endX = x + 1;
+                    int endY = y + 1;
+
+                    for (int u = startX; u <= endX; u++) {
+                        for (int o = startY; o <= endY; o++) {
+                            if(board.board[u][o].state==board.board[x][y].state)
+                                counter--;
+                        }
+                    }
+                }
+            }
+            else {
+                x = abs(random.nextInt() % (rows - 2) + 1);
+                y = abs(random.nextInt() % (columns - 2) + 1);
+            }
             System.out.println("x = " + x + "y = " + y);
+
             if(intrType=="Square") {
                 for (int k = (int)(x - intrSize/2.0); k < x + intrSize/2.0; k++) {
                     for (int m = (int)(y - intrSize/2.0); m < y + intrSize/2.0; m++) {

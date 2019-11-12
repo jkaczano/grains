@@ -36,8 +36,8 @@ public class Drawing {
                         graphicsContext.setFill(Color.BLACK);
                     else{
                     key = board.board[i][j].state;
-
-                    graphicsContext.setFill(colorHashMap.get(key));}
+                    graphicsContext.setFill(colorHashMap.get(key));
+                    }
                     graphicsContext.fillRect(i * sizeOfCell, j * sizeOfCell,sizeOfCell*size, sizeOfCell * size);
                 }
         }

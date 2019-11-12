@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelWriter;
@@ -44,6 +45,8 @@ public class Controller {
     TextField grainsCounttxt;
     @FXML
     ComboBox comboBox;
+    @FXML
+    ProgressBar progressBar;
     Board board;
 
     public GraphicsContext graphicsContext;
@@ -75,7 +78,7 @@ public class Controller {
 
         gameLogic = new GameLogic(sizeOfCell, canvasHeight, canvasWidth, canvas, grainsCount, choice,intrSize,intrType);
         gameLogic.drawing.clearBoard();
-        drawOnCanvas();
+        //drawOnCanvas();
     }
 
     public void drawOnCanvas() {
@@ -106,11 +109,14 @@ public class Controller {
         startFunction();
     }
 
+
     private void startFunction() {
             gameLogic.choice = "Moore";
-            gameLogic.board = gameLogic.calculateIterationGrains();
+            while(!gameLogic.cntr(gameLogic.board)) {
+                gameLogic.board = gameLogic.calculateIterationGrains();
+            }
             gameLogic.drawing.drawBoardString(gameLogic.board,1);
-        System.out.println("sdf");
+            System.out.println("sdf");
     }
 
     @FXML
@@ -207,10 +213,10 @@ public class Controller {
     }
     @FXML
     public void intrusion(){
-
+        gameLogic.grainsCount = Integer.parseInt(grainsCounttxt.getText());
         gameLogic.intrSize = Integer.parseInt(intr.getText());
         gameLogic.intrType = String.valueOf(comboBox.getValue());
-        gameLogic.intrusion();
+        gameLogic.intrusion(gameLogic.cntr(gameLogic.board));
     }
 
 }
