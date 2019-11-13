@@ -205,6 +205,7 @@ public class Controller {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        System.out.println("Text saved");
     }
 
     @FXML
@@ -216,7 +217,7 @@ public class Controller {
         gameLogic.grainsCount = Integer.parseInt(grainsCounttxt.getText());
         gameLogic.intrSize = Integer.parseInt(intr.getText());
         gameLogic.intrType = String.valueOf(comboBox.getValue());
-        gameLogic.intrusion(gameLogic.cntr(gameLogic.board));
+        gameLogic.board = gameLogic.intrusion(gameLogic.cntr(gameLogic.board));
     }
 
 }

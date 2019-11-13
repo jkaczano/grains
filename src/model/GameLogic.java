@@ -52,14 +52,26 @@ public class GameLogic {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns; j++) {
 
-                    if (board.board[i][j].state != "" && board.board[i][j].intrusion != 1) {
+                    if (board.board[i][j].state != "" && board.board[i][j].state != "i") {
                         newBoard.board[i][j].state = board.board[i][j].state;
                         switch (choice) {
                             case "Moore": {
                                 mooreSurroundingFill(board, newBoard, i, j);
                                 break;
                             }
-                            case "Von Neumann": {
+                            case "Moore58": {
+                                moore58SurroundingFill(board, newBoard, i, j);
+                                break;
+                            }
+                            case "Moore3c": {
+                                moore3CSurroundingFill(board, newBoard, i, j);
+                                break;
+                            }
+                            case "Moore3f": {
+                                //vonNeumannSurrounding(board, newBoard, i, j);
+                                break;
+                            }
+                            case "MooreRandom": {
                                 //vonNeumannSurrounding(board, newBoard, i, j);
                                 break;
                             }
@@ -68,6 +80,10 @@ public class GameLogic {
                                 break;
                             }
                         }
+                    }
+                    if(board.board[i][j].intrusion==1){
+                        newBoard.board[i][j].intrusion=1;
+                        newBoard.board[i][j].state="";
                     }
                 }
             }
@@ -82,8 +98,26 @@ public class GameLogic {
         return board;
     }
 
+    private void moore58SurroundingFill(Board board, Board newBoard, int i, int j) {
+        int startX = i - 1;
+        int startY = j - 1;
+        int endX = i + 1;
+        int endY = j + 1;
+        String grainName = board.board[i][j].state;
+        for (int x = startX; x <= endX; x++) {
+            for (int y = startY; y <= endY; y++) {
 
-     private void fillNewBoard(Board board, Board newBoard, String grainName, int x, int y) {
+            }
+        }
+        //fillNewBoard(board, newBoard, grainName, x, y);
+    }
+
+    private void moore3CSurroundingFill(Board board, Board newBoard, int i, int j) {
+        
+    }
+
+
+    private void fillNewBoard(Board board, Board newBoard, String grainName, int x, int y) {
         int tmpX;
         int tmpY;
         tmpX = x;
@@ -183,7 +217,9 @@ public class GameLogic {
         drawing.drawBoardString(board,1);
     }
 
-    public void intrusion(Boolean finish) {
+    int black=0;
+
+    public Board intrusion(Boolean finish) {
         System.out.println(finish);
         //String grainName = "grain";
         Random random = new Random();
@@ -193,10 +229,11 @@ public class GameLogic {
         for (int i = 1; i <= grainsCount; i++) {
             if(finish)
             {
-                counter=8;
-                while(counter>7){
-                    x = abs(random.nextInt() % (rows - 2) + 1);
-                    y = abs(random.nextInt() % (columns - 2) + 1);
+                counter=0;
+
+                while(counter==0){
+                    x = abs(random.nextInt() % (rows - 3) + 2);
+                    y = abs(random.nextInt() % (columns - 3) + 2);
                     int startX = x - 1;
                     int startY = y - 1;
                     int endX = x + 1;
@@ -204,10 +241,11 @@ public class GameLogic {
 
                     for (int u = startX; u <= endX; u++) {
                         for (int o = startY; o <= endY; o++) {
-                            if(board.board[u][o].state==board.board[x][y].state)
-                                counter--;
+                            if(board.board[x][y].state!=board.board[u][o].state)
+                                counter++;
                         }
                     }
+                    System.out.println(counter);
                 }
             }
             else {
@@ -222,6 +260,7 @@ public class GameLogic {
                         if(k<canvasHeight && k>1 && m>1 && m<canvasWidth) {
                             board.board[k][m].state = "i";
                             board.board[k][m].intrusion = 1;
+                            black++;
                         }
                     }
                 }
@@ -234,6 +273,7 @@ public class GameLogic {
                         if(dist<=intrSize && k>1 && m>1 && k<canvasHeight && m<canvasWidth) {
                             board.board[k][m].state = "i";
                             board.board[k][m].intrusion = 1;
+                        black++;
                         }
                     }
                 }
@@ -242,6 +282,7 @@ public class GameLogic {
             System.out.println(board.board[x][y].state);
         }
         drawing.drawBoardString(board,5);
+        return board;
     }
 
     public boolean cntr(Board brd){
@@ -254,7 +295,7 @@ public class GameLogic {
             }
         }
         System.out.println(counter);
-        if(counter>0)
+        if(counter>black)
             return false;
         else
             return true;
