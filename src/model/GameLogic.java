@@ -45,109 +45,250 @@ public class GameLogic {
     }
 
     public Board calculateIterationGrains() {
-        boolean st=false;
-        Board newBoard = new Board(rows, columns);
-
-        //while(!st) {
-            for (int i = 0; i < rows; i++) {
-                for (int j = 0; j < columns; j++) {
-
-                    if (board.board[i][j].state != "" && board.board[i][j].state != "i") {
-                        newBoard.board[i][j].state = board.board[i][j].state;
-                        switch (choice) {
-                            case "Moore": {
-                                mooreSurroundingFill(board, newBoard, i, j);
-                                break;
-                            }
-                            case "Moore58": {
-                                moore58SurroundingFill(board, newBoard, i, j);
-                                break;
-                            }
-                            case "Moore3c": {
-                                moore3CSurroundingFill(board, newBoard, i, j);
-                                break;
-                            }
-                            case "Moore3f": {
-                                //vonNeumannSurrounding(board, newBoard, i, j);
-                                break;
-                            }
-                            case "MooreRandom": {
-                                //vonNeumannSurrounding(board, newBoard, i, j);
-                                break;
-                            }
-                            default: {
-                                //vonNeumannSurrounding(board, newBoard, i, j);
-                                break;
-                            }
-                        }
-                    }
-                    if(board.board[i][j].intrusion==1){
-                        newBoard.board[i][j].intrusion=1;
-                        newBoard.board[i][j].state="";
-                    }
-                }
-            }
-            board=newBoard;
+        Cell[][] brd = new Cell[rows][columns];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                //newBoard.board[i][j].state="";
+                brd[i][j] = new Cell();
+                if(board.board[i][j].state != "")
+                brd[i][j].state=board.board[i][j].state;
+            }
+            }
+
+        for (int i = 1; i < rows-1; i++) {
+            for (int j = 1; j < columns-1; j++) {
+                if (board.board[i][j].state == "") {
+                    brd[i][j].state=energy(i,j);
+                }
             }
         }
-            //st = cntr(board);
-        //}
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                    board.board[i][j].state=brd[i][j].state;
+            }
+        }
         return board;
     }
 
-    private void moore58SurroundingFill(Board board, Board newBoard, int i, int j) {
-        int startX = i - 1;
-        int startY = j - 1;
-        int endX = i + 1;
-        int endY = j + 1;
-        String grainName = board.board[i][j].state;
-        for (int x = startX; x <= endX; x++) {
-            for (int y = startY; y <= endY; y++) {
 
+    private String energy(int x,int y){
+
+        int[] sameCellCount = new int[8];
+        for(int i=0;i<8;i++)
+        {sameCellCount[i]=0;}
+        int startX=x-1,startY=y-1,endX=x+1,endY=y+1;
+        Random random = new Random();
+        String state = "";
+        for (int m = x - 1; m <= x + 1; m++) {
+            for (int n = y - 1; n <= y + 1; n++) {
+            if(m!=x || n!=y)
+            {
+                for (int u = startX; u <= endX; u++) {
+                    for (int o = startY; o <= endY; o++) {
+                        if(board.board[u][o].state!=""&&board.board[m][n].state!=""&&u!=o) {
+                            if (board.board[u][o].state == board.board[m][n].state && m == x - 1 && n == y - 1)
+                                sameCellCount[0]++;
+                            if (board.board[u][o].state == board.board[m][n].state && m == x && n == y - 1)
+                                sameCellCount[1]++;
+                            if (board.board[u][o].state == board.board[m][n].state && m == x + 1 && n == y - 1)
+                                sameCellCount[2]++;
+                            if (board.board[u][o].state == board.board[m][n].state && m == x - 1 && n == y)
+                                sameCellCount[3]++;
+                            if (board.board[u][o].state == board.board[m][n].state && m == x + 1 && n == y)
+                                sameCellCount[4]++;
+                            if (board.board[u][o].state == board.board[m][n].state && m == x - 1 && n == y + 1)
+                                sameCellCount[5]++;
+                            if (board.board[u][o].state == board.board[m][n].state && m == x && n == y + 1)
+                                sameCellCount[6]++;
+                            if (board.board[u][o].state == board.board[m][n].state && m == x + 1 && n == y + 1)
+                                sameCellCount[7]++;
+                        }
+                    }
+                }
+            }
+            }}
+
+        int max=0,index=-1;
+        for(int i=0;i<8;i++)
+        {
+            if(sameCellCount[i]>=max) {
+                max = sameCellCount[i];
+                index = i;
             }
         }
-        //fillNewBoard(board, newBoard, grainName, x, y);
+        //if(index>=0) {
+            try {
+                switch (index) {
+                    case 0: {
+                        state = board.board[x - 1][y - 1].state;
+                        break;
+                    }
+                    case 1: {
+                        state = board.board[x][y-1].state;
+                        break;
+                    }
+                    case 2: {
+                        state = board.board[x + 1][y - 1].state;
+                        break;
+                    }
+                    case 3: {
+                        state = board.board[x-1][y ].state;
+                        break;
+                    }
+                    case 4: {
+                        state = board.board[x+1][y ].state;
+                        break;
+                    }
+                    case 5: {
+                        state = board.board[x - 1][y + 1].state;
+                        break;
+                    }
+                    case 6: {
+                        state = board.board[x ][y+1].state;
+                        break;
+                    }
+                    case 7: {
+                        state = board.board[x + 1][y + 1].state;
+                        break;
+                    }
+                    default: {
+                        state = "";
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        //}
+        return state;
     }
 
-    private void moore3CSurroundingFill(Board board, Board newBoard, int i, int j) {
-        
-    }
+    private String Energy(int x, int y) {
+        String state="";
+        Random random = new Random();
+        int[] sameCellCount = new int[8];
+        for (int startX = x - 1; startX <= x + 1; startX++) {
+            for (int startY = y - 1; startY <= y + 1; startY++) {
+                int tmpX = startX;
+                int tmpY = startY;
+                if (period) {
+                    if (tmpX == -1) tmpX = columns - 1;
+                    if (tmpX == columns) tmpX = 0;
+                    if (tmpY == -1) tmpY = rows - 1;
+                    if (tmpY == rows) tmpY = 0;
+                } else {
+                    if (tmpX == -1) tmpX = 0;
+                    if (tmpX == columns) tmpX = columns - 1;
+                    if (tmpY == -1) tmpY = 0;
+                    if (tmpY == rows) tmpY = rows - 1;
+                }
+                if (x == 0 && y == 0) {
+                    if (board.board[tmpX][tmpY].state == board.board[x + 1][y].state) sameCellCount[6]++;
+                    if (board.board[tmpX][tmpY].state == board.board[x + 1][y + 1].state) sameCellCount[7]++;
+                    if (board.board[tmpX][tmpY].state == board.board[x][y + 1].state) sameCellCount[4]++;
+                }
+                if (x == 0 && y != 0 && y != columns - 1) {
+                    if (board.board[tmpX][tmpY].state == board.board[x][y - 1].state) sameCellCount[3]++;
+                    if (board.board[tmpX][tmpY].state == board.board[x][y + 1].state) sameCellCount[4]++;
+                    if (board.board[tmpX][tmpY].state == board.board[x + 1][y - 1].state) sameCellCount[5]++;
+                    if (board.board[tmpX][tmpY].state == board.board[x + 1][y].state) sameCellCount[6]++;
+                    if (board.board[tmpX][tmpY].state == board.board[x + 1][y + 1].state) sameCellCount[7]++;
+                }
+                if (x == 0 && y == columns - 1) {
+                    if (board.board[tmpX][tmpY].state == board.board[x][y - 1].state) sameCellCount[3]++;
+                    if (board.board[tmpX][tmpY].state == board.board[x + 1][y - 1].state) sameCellCount[5]++;
+                    if (board.board[tmpX][tmpY].state == board.board[x + 1][y].state) sameCellCount[6]++;
+                }
+                if (x != 0 && x != rows - 1 && y == 0) {
+                    if (board.board[tmpX][tmpY].state == board.board[x - 1][y].state) sameCellCount[1]++;
+                    if (board.board[tmpX][tmpY].state == board.board[x - 1][y + 1].state) sameCellCount[2]++;
+                    if (board.board[tmpX][tmpY].state == board.board[x][y + 1].state) sameCellCount[4]++;
+                    if (board.board[tmpX][tmpY].state == board.board[x + 1][y].state) sameCellCount[6]++;
+                    if (board.board[tmpX][tmpY].state == board.board[x + 1][y + 1].state) sameCellCount[7]++;
+                }
+                if (y == 0 && x == rows - 1) {
+                    if (board.board[tmpX][tmpY].state == board.board[x][y + 1].state) sameCellCount[4]++;
+                    if (board.board[tmpX][tmpY].state == board.board[x - 1][y + 1].state) sameCellCount[2]++;
+                    if (board.board[tmpX][tmpY].state == board.board[x - 1][y].state) sameCellCount[1]++;
+                }
+                if (x == rows - 1 && y != 0 && y != columns - 1) {
+                    if (board.board[tmpX][tmpY].state == board.board[x - 1][y - 1].state) sameCellCount[0]++;
+                    if (board.board[tmpX][tmpY].state == board.board[x - 1][y].state) sameCellCount[1]++;
+                    if (board.board[tmpX][tmpY].state == board.board[x - 1][y + 1].state) sameCellCount[2]++;
+                    if (board.board[tmpX][tmpY].state == board.board[x][y - 1].state) sameCellCount[3]++;
+                    if (board.board[tmpX][tmpY].state == board.board[x][y + 1].state) sameCellCount[4]++;
+                }
+                if (x == rows - 1 && y == columns - 1) {
+                    if (board.board[tmpX][tmpY].state == board.board[x - 1][y - 1].state) sameCellCount[0]++;
+                    if (board.board[tmpX][tmpY].state == board.board[x - 1][y].state) sameCellCount[1]++;
+                    if (board.board[tmpX][tmpY].state == board.board[x][y - 1].state) sameCellCount[3]++;
+                }
+                if (y == columns - 1 && x != 0 && x != rows - 1) {
+                    if (board.board[tmpX][tmpY].state == board.board[x - 1][y - 1].state) sameCellCount[0]++;
+                    if (board.board[tmpX][tmpY].state == board.board[x - 1][y].state) sameCellCount[1]++;
+                    if (board.board[tmpX][tmpY].state == board.board[x][y - 1].state) sameCellCount[3]++;
+                    if (board.board[tmpX][tmpY].state == board.board[x + 1][y - 1].state) sameCellCount[5]++;
+                    if (board.board[tmpX][tmpY].state == board.board[x + 1][y].state) sameCellCount[6]++;
+                }
+                if (x != 0 && x != rows - 1 && y != 0 && y != columns - 1) {
+                    if (board.board[tmpX][tmpY].state == board.board[x - 1][y - 1].state) sameCellCount[0]++;
+                    if (board.board[tmpX][tmpY].state == board.board[x - 1][y].state) sameCellCount[1]++;
+                    if (board.board[tmpX][tmpY].state == board.board[x - 1][y + 1].state) sameCellCount[2]++;
+                    if (board.board[tmpX][tmpY].state == board.board[x][y - 1].state) sameCellCount[3]++;
+                    if (board.board[tmpX][tmpY].state == board.board[x][y + 1].state) sameCellCount[4]++;
+                    if (board.board[tmpX][tmpY].state == board.board[x + 1][y - 1].state) sameCellCount[5]++;
+                    if (board.board[tmpX][tmpY].state == board.board[x + 1][y].state) sameCellCount[6]++;
+                    if (board.board[tmpX][tmpY].state == board.board[x + 1][y + 1].state) sameCellCount[7]++;
+                }
+            }
 
+            int[] max = new int[8];
+            max[0] = sameCellCount[0];
+            int c = 0, m;
+            for (int i = 1; i < 8; i++) {
+                if (sameCellCount[i] > max[0]) {
+                    for (int j = 0; j < 8; j++) {
+                        max[j] = 0;
+                    }
+                    max[0] = i;
+                    c = 1;
+                }
+                if (sameCellCount[i] == max[0]) {
+                    max[c] = i;
+                    c++;
+                }
+            }
+            if (max.length > 1) {
+                m = max[abs(random.nextInt() % max.length)];
+            } else {
+                m = max[0];
+            }
 
-    private void fillNewBoard(Board board, Board newBoard, String grainName, int x, int y) {
-        int tmpX;
-        int tmpY;
-        tmpX = x;
-        tmpY = y;
-
-            if (x == -1) tmpX = 0;
-            if (x == columns) tmpX = columns - 1;
-            if (y == -1) tmpY = 0;
-            if (y == rows) tmpY = rows - 1;
-
-        if (board.board[tmpX][tmpY].state == "" && board.board[tmpX][tmpY].intrusion != 1)
-            newBoard.board[tmpX][tmpY].state = grainName;
-    }
-
-
-    private void mooreSurroundingFill(Board board, Board newBoard, int i, int j) {
-        int startX = i - 1;
-        int startY = j - 1;
-        int endX = i + 1;
-        int endY = j + 1;
-
-        String grainName = board.board[i][j].state;
-
-        for (int x = startX; x <= endX; x++) {
-            for (int y = startY; y <= endY; y++) {
-                fillNewBoard(board, newBoard, grainName, x, y);
+            try {
+                switch (m) {
+                    case 0: {
+                        state = board.board[x - 1][y - 1].state;break;}
+                    case 1:{
+                        state = board.board[x - 1][y].state;break;}
+                    case 2:{
+                        state = board.board[x - 1][y + 1].state;break;}
+                    case 3:{
+                        state = board.board[x][y - 1].state;break;}
+                    case 4:{
+                        state = board.board[x][y + 1].state;break;}
+                    case 5:{
+                        state = board.board[x + 1][y - 1].state;break;}
+                    case 6:{
+                        state = board.board[x + 1][y].state;break;}
+                    case 7:{
+                        state = board.board[x + 1][y + 1].state;break;}
+                }
+            }
+            catch (Exception e) {
+                e.printStackTrace();
             }
         }
+        return state;
     }
-
     private void vonNeumannSurrounding(Board board, Board newBoard, int i, int j) {
 
         int leftX = i;
@@ -295,7 +436,7 @@ public class GameLogic {
             }
         }
         System.out.println(counter);
-        if(counter>black)
+        if(counter>black+1196)
             return false;
         else
             return true;

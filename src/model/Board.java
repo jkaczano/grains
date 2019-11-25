@@ -20,9 +20,10 @@ public class Board {
         for(int j=0;j<columns;j++)
         {
             board[i][j]=new Cell();
+            board[i][j].fillCell("");
         }
     }
-    clearBoard();
+
     }
 
     public void clearBoard(){
