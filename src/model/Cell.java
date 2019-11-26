@@ -6,10 +6,11 @@ package model;
 public class Cell {
     public String state;
     public int intrusion;
-
+    public boolean noGrow;
     public Cell()
     {
         state ="";
+        noGrow=false;
     }
 
     public void fillCell(String str)

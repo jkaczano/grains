@@ -14,18 +14,18 @@ import static java.lang.Math.abs;
 public class GameLogic {
 
     public int sizeOfCell,intrSize;
-    int rows, columns;
+    int rows, columns,random;
     double canvasHeight, canvasWidth;
     public int grainsCount;
-    public String choice,intrType;
+    public String choice,intrType,structs;
     Boolean period = true;
-
+    public String[] phases = new String[20];
     RadioButton periodRadioButton;
     public Board board;
     public Drawing drawing;
     public GraphicsContext graphicsContext;
 
-    public GameLogic(int sizeOfCell, double canvasHeight, double canvasWidth, Canvas canvas, int grainsCount, String choice,int intrSize,String intrType) {
+    public GameLogic(int sizeOfCell, double canvasHeight, double canvasWidth, Canvas canvas, int grainsCount, String choice,int intrSize,String intrType,int random,String structs) {
         graphicsContext = canvas.getGraphicsContext2D();
         this.sizeOfCell = sizeOfCell;
         this.canvasHeight = canvasHeight;
@@ -36,6 +36,8 @@ public class GameLogic {
         this.choice = choice;
         this.intrSize = intrSize;
         this.intrType = intrType;
+        this.random = random;
+        this.structs = structs;
         board = new Board(rows, columns);
         drawing = new Drawing(graphicsContext, canvasHeight, canvasWidth, sizeOfCell, grainsCount);
     }
@@ -77,7 +79,7 @@ public class GameLogic {
         for(int i=0;i<8;i++)
         {sameCellCount[i]=0;}
         int startX=x-1,startY=y-1,endX=x+1,endY=y+1;
-        Random random = new Random();
+        Random rand = new Random();
         String state = "";
         for (int m = x - 1; m <= x + 1; m++) {
             for (int n = y - 1; n <= y + 1; n++) {
@@ -85,7 +87,7 @@ public class GameLogic {
             {
                 for (int u = startX; u <= endX; u++) {
                     for (int o = startY; o <= endY; o++) {
-                        if(board.board[u][o].state!=""&&board.board[m][n].state!=""&&u!=o) {
+                        if(board.board[u][o].intrusion!=1&&!board.board[u][o].noGrow&&board.board[u][o].state!=""&&board.board[m][n].state!=""&&u!=o) {
                             if (board.board[u][o].state == board.board[m][n].state && m == x - 1 && n == y - 1)
                                 sameCellCount[0]++;
                             if (board.board[u][o].state == board.board[m][n].state && m == x && n == y - 1)
@@ -116,49 +118,117 @@ public class GameLogic {
                 index = i;
             }
         }
-        //if(index>=0) {
-            try {
-                switch (index) {
-                    case 0: {
-                        state = board.board[x - 1][y - 1].state;
-                        break;
+        if (max == 1 || max == 2 || max == 4) {
+            int r = abs(rand.nextInt()) % 100;
+            if (r <= random) {
+                try {
+                    switch (index) {
+                        case 0: {
+                            state = board.board[x - 1][y - 1].state;
+                            break;
+                        }
+                        case 1: {
+                            state = board.board[x][y - 1].state;
+                            break;
+                        }
+                        case 2: {
+                            state = board.board[x + 1][y - 1].state;
+                            break;
+                        }
+                        case 3: {
+                            state = board.board[x - 1][y].state;
+                            break;
+                        }
+                        case 4: {
+                            state = board.board[x + 1][y].state;
+                            break;
+                        }
+                        case 5: {
+                            state = board.board[x - 1][y + 1].state;
+                            break;
+                        }
+                        case 6: {
+                            state = board.board[x][y + 1].state;
+                            break;
+                        }
+                        case 7: {
+                            state = board.board[x + 1][y + 1].state;
+                            break;
+                        }
+                        default: {
+                            state = "";
+                        }
                     }
-                    case 1: {
-                        state = board.board[x][y-1].state;
-                        break;
-                    }
-                    case 2: {
-                        state = board.board[x + 1][y - 1].state;
-                        break;
-                    }
-                    case 3: {
-                        state = board.board[x-1][y ].state;
-                        break;
-                    }
-                    case 4: {
-                        state = board.board[x+1][y ].state;
-                        break;
-                    }
-                    case 5: {
-                        state = board.board[x - 1][y + 1].state;
-                        break;
-                    }
-                    case 6: {
-                        state = board.board[x ][y+1].state;
-                        break;
-                    }
-                    case 7: {
-                        state = board.board[x + 1][y + 1].state;
-                        break;
-                    }
-                    default: {
-                        state = "";
-                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
-        //}
+        }else {
+            if (max == 3) {
+                if (board.board[x - 1][y - 1].state == board.board[x + 1][y - 1].state && board.board[x + 1][y - 1].state == board.board[x + 1][y + 1].state)
+                    return board.board[x - 1][y - 1].state;
+                if (board.board[x - 1][y - 1].state == board.board[x + 1][y - 1].state && board.board[x + 1][y - 1].state == board.board[x - 1][y + 1].state)
+                    return board.board[x - 1][y - 1].state;
+                if (board.board[x + 1][y - 1].state == board.board[x + 1][y + 1].state && board.board[x + 1][y - 1].state == board.board[x - 1][y + 1].state)
+                    return board.board[x + 1][y - 1].state;
+                if (board.board[x - 1][y - 1].state == board.board[x - 1][y + 1].state && board.board[x - 1][y + 1].state == board.board[x + 1][x + 1].state)
+                    return board.board[x - 1][y - 1].state;
+                if (board.board[x - 1][y].state == board.board[x + 1][y].state && board.board[x + 1][y].state == board.board[x][y - 1].state)
+                    return board.board[x - 1][y].state;
+                if (board.board[x][y - 1].state == board.board[x + 1][y].state && board.board[x + 1][y].state == board.board[x][y + 1].state)
+                    return board.board[x][y - 1].state;
+                if (board.board[x - 1][y].state == board.board[x + 1][y].state && board.board[x + 1][y].state == board.board[x][y + 1].state)
+                    return board.board[x - 1][y].state;
+                if (board.board[x - 1][y].state == board.board[x][y - 1].state && board.board[x][y - 1].state == board.board[x][y + 1].state)
+                    return board.board[x - 1][y].state;
+                return board.board[x - 1][y].state;
+            }
+        else {
+            if (max >= 5) {
+                try {
+                    switch (index) {
+                        case 0: {
+                            state = board.board[x - 1][y - 1].state;
+                            break;
+                        }
+                        case 1: {
+                            state = board.board[x][y - 1].state;
+                            break;
+                        }
+                        case 2: {
+                            state = board.board[x + 1][y - 1].state;
+                            break;
+                        }
+                        case 3: {
+                            state = board.board[x - 1][y].state;
+                            break;
+                        }
+                        case 4: {
+                            state = board.board[x + 1][y].state;
+                            break;
+                        }
+                        case 5: {
+                            state = board.board[x - 1][y + 1].state;
+                            break;
+                        }
+                        case 6: {
+                            state = board.board[x][y + 1].state;
+                            break;
+                        }
+                        case 7: {
+                            state = board.board[x + 1][y + 1].state;
+                            break;
+                        }
+                        default: {
+                            state = "";
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            }
+        }
         return state;
     }
 
@@ -436,9 +506,18 @@ public class GameLogic {
             }
         }
         System.out.println(counter);
-        if(counter>black+1196)
+        if(counter>black+1197)
             return false;
         else
             return true;
+    }
+
+    public void phase(int x,int y,int p){
+        phases[p]=board.board[x][y].state;
+        for(int i=1;i<=p;i++)
+        {
+            System.out.println(phases[i]+" "+i);
+        }
+        System.out.println("tab "+phases[1]);
     }
 }

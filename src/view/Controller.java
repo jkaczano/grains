@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
@@ -42,16 +43,20 @@ public class Controller {
     @FXML
     TextField intr;
     @FXML
+    TextField rand;
+    @FXML
     TextField grainsCounttxt;
     @FXML
     ComboBox comboBox;
+    @FXML
+    ChoiceBox structure;
     @FXML
     ProgressBar progressBar;
     Board board;
 
     public GraphicsContext graphicsContext;
     GameLogic gameLogic;
-    int i = 1;
+    int i = 1,p=0,random=0;
     private boolean running = true;
 
     @FXML
@@ -64,6 +69,10 @@ public class Controller {
                 "Square",
                 "Circle"
         ));
+        structure.setItems(FXCollections.observableArrayList(
+                "SUB",
+                "DP"
+        ));
     }
 
     @FXML
@@ -75,32 +84,28 @@ public class Controller {
         grainsCount = Integer.parseInt(grainsCounttxt.getText());
         String choice = "Moore";
         String intrType = String.valueOf(comboBox.getValue());
-
-        gameLogic = new GameLogic(sizeOfCell, canvasHeight, canvasWidth, canvas, grainsCount, choice,intrSize,intrType);
+        String structs = String.valueOf(structure.getValue());
+        random = Integer.parseInt(rand.getText());
+        gameLogic = new GameLogic(sizeOfCell, canvasHeight, canvasWidth, canvas, grainsCount, choice,intrSize,intrType,random,structs);
         gameLogic.drawing.clearBoard();
-        //drawOnCanvas();
+        drawOnCanvas();
     }
 
     public void drawOnCanvas() {
 
         i = grainsCount+1;
-
+        String phase = String.valueOf(structure.getValue());
         canvas.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 double x = event.getX();
                 double y = event.getY();
-
-                int xPosition = (int) (x / sizeOfCell);
-                int yPosition = (int) (y / sizeOfCell);
-
-                gameLogic.fillBoardStateString(xPosition, yPosition, "grain" + i);
-                System.out.println("state of cell = " + xPosition + " " + yPosition + "  " + gameLogic.board.board[xPosition][yPosition].state);
-                i++;
-                gameLogic.drawing.addOnClickGrainColor(i);
-                gameLogic.drawing.drawBoardString(gameLogic.board,1);
+                gameLogic.phase((int)x,(int)y,p);
+                System.out.println(p+" canvas");
+                p++;
             }
         });
+
     }
 
 
@@ -111,6 +116,7 @@ public class Controller {
 
 
     private void startFunction() {
+            gameLogic.phases= new String[20];
             gameLogic.choice = "Moore";
             while(!gameLogic.cntr(gameLogic.board)) {
                 gameLogic.board = gameLogic.calculateIterationGrains();
@@ -218,6 +224,30 @@ public class Controller {
         gameLogic.intrSize = Integer.parseInt(intr.getText());
         gameLogic.intrType = String.valueOf(comboBox.getValue());
         gameLogic.board = gameLogic.intrusion(gameLogic.cntr(gameLogic.board));
+    }
+    @FXML
+    public void sub(){
+        for(int i=1;i<canvasWidth-1;i++) {
+            for (int j = 1; j < canvasHeight-1; j++) {
+                if(!onList(i,j)){
+                    gameLogic.board.board[i][j].state="";
+                }
+                else
+                    gameLogic.board.board[i][j].noGrow=true;
+
+            }
+        }
+        gameLogic.drawing.drawBoardString(gameLogic.board,1);
+    }
+
+    public boolean onList(int x,int y)
+    {
+        for(int i=1;i<p;i++) {
+            if (gameLogic.board.board[x][y].state == gameLogic.phases[i]) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
