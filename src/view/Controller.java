@@ -5,9 +5,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ProgressBar;
+import javafx.scene.control.*;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelWriter;
@@ -52,6 +50,8 @@ public class Controller {
     ChoiceBox structure;
     @FXML
     ProgressBar progressBar;
+    @FXML
+    javafx.scene.control.Label percentage;
     Board board;
 
     public GraphicsContext graphicsContext;
@@ -122,7 +122,7 @@ public class Controller {
                 gameLogic.board = gameLogic.calculateIterationGrains();
             }
             gameLogic.drawing.drawBoardString(gameLogic.board,1);
-            System.out.println("sdf");
+            System.out.println("growth finished");
     }
 
     @FXML
@@ -249,5 +249,62 @@ public class Controller {
         }
         return false;
     }
+    @FXML
+    public void allBoundaries(){
+        for(int i=1;i<canvasHeight-1;i++){
+            for(int j=1;j<canvasWidth-1;j++){
+                for (int u = i-1; u <= i+1; u++) {
+                    for (int o = j-1; o <= j+1; o++) {
+                        if(gameLogic.board.board[i][j].state!=gameLogic.board.board[u][o].state)
+                            gameLogic.board.board[i][j].intrusion=1;
+                    }
+                }
+            }
+        }
+        gameLogic.drawing.drawBoardString(gameLogic.board,1);
+    }
+
+    @FXML
+    public void clearInside()
+    {
+        double gb=0;
+        for(int i=1;i<canvasHeight-1;i++){
+            for(int j=1;j<canvasWidth-1;j++){
+                if( gameLogic.board.board[i][j].intrusion!=1)
+                    gameLogic.board.board[i][j].state="";
+                else
+                    gb++;
+            }}
+            gb=gb/89000 * 100;
+        gb=Math.round(gb);
+            percentage.setText(gb+"%");
+        gameLogic.drawing.drawBoardString(gameLogic.board,1);
+    }
+
+    @FXML
+    public void nBounds(){
+        for(int i=1;i<canvasWidth-1;i++) {
+            for (int j = 1; j < canvasHeight-1; j++) {
+                if(!onList(i,j)){
+                    gameLogic.board.board[i][j].state="";
+                }
+                else
+                    gameLogic.board.board[i][j].noGrow=true;
+
+            }
+        }
+        for(int i=1;i<canvasHeight-1;i++){
+            for(int j=1;j<canvasWidth-1;j++){
+                for (int u = i-1; u <= i+1; u++) {
+                    for (int o = j-1; o <= j+1; o++) {
+                        if(gameLogic.board.board[i][j].state!=gameLogic.board.board[u][o].state)
+                            gameLogic.board.board[i][j].intrusion=1;
+                    }
+                }
+            }
+        }
+        gameLogic.drawing.drawBoardString(gameLogic.board,1);
+    }
+
 
 }

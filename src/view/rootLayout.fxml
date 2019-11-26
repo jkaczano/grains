@@ -15,16 +15,16 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.Controller">
    <children>
       <Canvas fx:id="canvas" height="300.0" layoutX="25.0" layoutY="39.0" width="300.0" />
-      <Button layoutX="438.0" layoutY="133.0" mnemonicParsing="false" onAction="#handleGenerateButton" text="Generate" />
+      <Button layoutX="438.0" layoutY="121.0" mnemonicParsing="false" onAction="#handleGenerateButton" text="Generate" />
       <TextField layoutX="490.0" layoutY="26.0" prefHeight="25.0" prefWidth="71.0" fx:id="x" />
       <TextField fx:id="y" layoutX="490.0" layoutY="59.0" prefHeight="25.0" prefWidth="71.0" />
       <Label layoutX="427.0" layoutY="30.0" text="Choose x:" />
       <Label layoutX="427.0" layoutY="63.0" text="Choose y;" />
       <Label layoutX="439.0" layoutY="95.0" text="Grains:" />
       <TextField fx:id="grainsCounttxt" layoutX="490.0" layoutY="91.0" prefHeight="25.0" prefWidth="71.0" />
-      <Button layoutX="450.0" layoutY="176.0" mnemonicParsing="false" onAction="#handleStartButton" text="Start" />
-      <Button layoutX="518.0" layoutY="133.0" mnemonicParsing="false" onAction="#handleRandomGrains" text="Random" />
-      <Button layoutX="500.0" layoutY="176.0" mnemonicParsing="false" onAction="#handleStopButton" text="Stop" />
+      <Button layoutX="450.0" layoutY="151.0" mnemonicParsing="false" onAction="#handleStartButton" text="Start" />
+      <Button layoutX="518.0" layoutY="121.0" mnemonicParsing="false" onAction="#handleRandomGrains" text="Random" />
+      <Button layoutX="503.0" layoutY="151.0" mnemonicParsing="false" onAction="#handleStopButton" text="Stop" />
       <MenuBar layoutY="2.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
@@ -37,14 +37,18 @@
           </Menu>
         </menus>
       </MenuBar>
-      <Button layoutX="472.0" layoutY="231.0" mnemonicParsing="false" onAction="#intrusion" text="Intrusion" />
-      <TextField fx:id="intr" layoutX="523.0" layoutY="263.0" prefHeight="25.0" prefWidth="36.0" text="5" />
-      <ComboBox fx:id="comboBox" layoutX="412.0" layoutY="263.0" prefHeight="25.0" prefWidth="103.0" promptText="Intrusion" />
+      <Button layoutX="396.0" layoutY="188.0" mnemonicParsing="false" onAction="#intrusion" text="Intrusion" />
+      <TextField fx:id="intr" layoutX="539.0" layoutY="188.0" prefHeight="25.0" prefWidth="36.0" text="5" />
+      <ComboBox fx:id="comboBox" layoutX="465.0" layoutY="188.0" prefHeight="25.0" prefWidth="71.0" promptText="Type" />
       <ProgressBar fx:id="progressBar" layoutX="81.0" layoutY="360.0" prefWidth="200.0" progress="0.0" />
-      <TextField fx:id="rand" layoutX="539.0" layoutY="297.0" prefHeight="25.0" prefWidth="36.0" text="80" />
-      <Label layoutX="445.0" layoutY="301.0" text="Randomness (%):" />
-      <ChoiceBox fx:id="structure" layoutX="418.0" layoutY="327.0" prefHeight="25.0" prefWidth="91.0" />
-      <Button layoutX="419.0" layoutY="357.0" mnemonicParsing="false" text="DP" />
-      <Button layoutX="474.0" layoutY="357.0" mnemonicParsing="false" onAction="#sub" text="SUB" />
+      <TextField fx:id="rand" layoutX="491.0" layoutY="216.0" prefHeight="25.0" prefWidth="36.0" text="80" />
+      <Label layoutX="394.0" layoutY="220.0" text="Randomness (%):" />
+      <ChoiceBox fx:id="structure" layoutX="393.0" layoutY="241.0" prefHeight="25.0" prefWidth="91.0" />
+      <Button layoutX="487.0" layoutY="241.0" mnemonicParsing="false" text="DP" />
+      <Button layoutX="525.0" layoutY="241.0" mnemonicParsing="false" onAction="#sub" text="SUB" />
+      <Button layoutX="388.0" layoutY="274.0" mnemonicParsing="false" onAction="#allBoundaries" text="ALL bounds" />
+      <Button layoutX="470.0" layoutY="274.0" mnemonicParsing="false" onAction="#clearInside" text="Clear Inside" />
+      <Label fx:id="percentage" layoutX="549.0" layoutY="278.0" />
+      <Button layoutX="388.0" layoutY="307.0" mnemonicParsing="false" onAction="#nBounds" text="N bounds" />
    </children>
 </AnchorPane>

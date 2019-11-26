@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="dc16d4c2-54f0-4818-adad-707e5a74ce69" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Rozrost/model/Cell.class" afterPath="$PROJECT_DIR$/out/production/Rozrost/model/Cell.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Rozrost/model/GameLogic.class" afterPath="$PROJECT_DIR$/out/production/Rozrost/model/GameLogic.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Rozrost/view/Controller$1.class" afterPath="$PROJECT_DIR$/out/production/Rozrost/view/Controller$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Rozrost/view/Controller.class" afterPath="$PROJECT_DIR$/out/production/Rozrost/view/Controller.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Rozrost/view/rootLayout.fxml" afterPath="$PROJECT_DIR$/out/production/Rozrost/view/rootLayout.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/model/Cell.java" afterPath="$PROJECT_DIR$/src/model/Cell.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/model/GameLogic.java" afterPath="$PROJECT_DIR$/src/model/GameLogic.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/view/Controller.java" afterPath="$PROJECT_DIR$/src/view/Controller.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/view/rootLayout.fxml" afterPath="$PROJECT_DIR$/src/view/rootLayout.fxml" />
     </list>
@@ -36,10 +29,11 @@
       <file leaf-file-name="GameLogic.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/model/GameLogic.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="57">
-              <caret line="85" column="28" lean-forward="true" selection-start-line="85" selection-start-column="28" selection-end-line="85" selection-end-column="28" />
+            <state relative-caret-position="5491">
+              <caret line="508" column="30" lean-forward="false" selection-start-line="508" selection-start-column="30" selection-end-line="508" selection-end-column="30" />
               <folding>
                 <element signature="method#Energy#0;class#GameLogic#0" expanded="false" />
+                <element signature="method#vonNeumannSurrounding#0;class#GameLogic#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -48,7 +42,7 @@
       <file leaf-file-name="Board.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/model/Board.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
+            <state relative-caret-position="170">
               <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
               <folding />
             </state>
@@ -68,11 +62,21 @@
       <file leaf-file-name="Controller.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/view/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="245">
-              <caret line="192" column="57" lean-forward="true" selection-start-line="192" selection-start-column="57" selection-end-line="192" selection-end-column="57" />
+            <state relative-caret-position="-2430">
+              <caret line="122" column="7" lean-forward="false" selection-start-line="122" selection-start-column="7" selection-end-line="122" selection-end-column="7" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Drawing.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/model/Drawing.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-51">
+              <caret line="22" column="37" lean-forward="true" selection-start-line="22" selection-start-column="37" selection-end-line="22" selection-end-column="37" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -484,7 +488,14 @@
       <option name="project" value="LOCAL" />
       <updated>1574692129957</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="grain pick">
+      <created>1574782232364</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1574782232364</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TodoView">
@@ -539,7 +550,8 @@
     <MESSAGE value="intrusion added" />
     <MESSAGE value="intrusion added (works)" />
     <MESSAGE value="energy calculated" />
-    <option name="LAST_COMMIT_MESSAGE" value="energy calculated" />
+    <MESSAGE value="grain pick" />
+    <option name="LAST_COMMIT_MESSAGE" value="grain pick" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -585,6 +597,7 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="method#Energy#0;class#GameLogic#0" expanded="false" />
+            <element signature="method#vonNeumannSurrounding#0;class#GameLogic#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -645,6 +658,7 @@
           <caret line="379" column="18" lean-forward="false" selection-start-line="379" selection-start-column="18" selection-end-line="379" selection-end-column="18" />
           <folding>
             <element signature="method#Energy#0;class#GameLogic#0" expanded="false" />
+            <element signature="method#vonNeumannSurrounding#0;class#GameLogic#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -705,6 +719,7 @@
           <caret line="379" column="18" lean-forward="true" selection-start-line="379" selection-start-column="18" selection-end-line="379" selection-end-column="18" />
           <folding>
             <element signature="method#Energy#0;class#GameLogic#0" expanded="false" />
+            <element signature="method#vonNeumannSurrounding#0;class#GameLogic#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -765,6 +780,7 @@
           <caret line="546" column="0" lean-forward="false" selection-start-line="546" selection-start-column="0" selection-end-line="546" selection-end-column="0" />
           <folding>
             <element signature="method#Energy#0;class#GameLogic#0" expanded="false" />
+            <element signature="method#vonNeumannSurrounding#0;class#GameLogic#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -929,26 +945,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/model/Drawing.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="30" column="16" lean-forward="false" selection-start-line="30" selection-start-column="16" selection-end-line="30" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="139">
           <caret line="32" column="0" lean-forward="false" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/model/Board.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -961,20 +961,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/model/Board.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/model/Drawing.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-51">
+          <caret line="22" column="37" lean-forward="true" selection-start-line="22" selection-start-column="37" selection-end-line="22" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/model/GameLogic.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="85" column="28" lean-forward="true" selection-start-line="85" selection-start-column="28" selection-end-line="85" selection-end-column="28" />
+        <state relative-caret-position="5491">
+          <caret line="508" column="30" lean-forward="false" selection-start-line="508" selection-start-column="30" selection-end-line="508" selection-end-column="30" />
           <folding>
             <element signature="method#Energy#0;class#GameLogic#0" expanded="false" />
+            <element signature="method#vonNeumannSurrounding#0;class#GameLogic#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/view/Controller.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="245">
-          <caret line="192" column="57" lean-forward="true" selection-start-line="192" selection-start-column="57" selection-end-line="192" selection-end-column="57" />
+        <state relative-caret-position="-2430">
+          <caret line="122" column="7" lean-forward="false" selection-start-line="122" selection-start-column="7" selection-end-line="122" selection-end-column="7" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
