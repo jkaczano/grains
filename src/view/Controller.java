@@ -312,8 +312,10 @@ public class Controller {
                 if(!onList(i,j)){
                     gameLogic.board.board[i][j].state="";
                 }
-                else
-                    gameLogic.board.board[i][j].state="grain1";
+                else {
+                    gameLogic.board.board[i][j].state = "grain1";
+                    gameLogic.board.board[i][j].noGrow=true;
+                }
 
             }
         }
