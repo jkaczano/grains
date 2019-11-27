@@ -305,6 +305,19 @@ public class Controller {
         }
         gameLogic.drawing.drawBoardString(gameLogic.board,1);
     }
+    @FXML
+    public void dualPhase(){
+        for(int i=1;i<canvasWidth-1;i++) {
+            for (int j = 1; j < canvasHeight-1; j++) {
+                if(!onList(i,j)){
+                    gameLogic.board.board[i][j].state="";
+                }
+                else
+                    gameLogic.board.board[i][j].state="grain1";
 
+            }
+        }
+        gameLogic.drawing.drawBoardString(gameLogic.board,1);
+    }
 
 }

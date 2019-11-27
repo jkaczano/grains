@@ -44,7 +44,7 @@
       <TextField fx:id="rand" layoutX="491.0" layoutY="216.0" prefHeight="25.0" prefWidth="36.0" text="80" />
       <Label layoutX="394.0" layoutY="220.0" text="Randomness (%):" />
       <ChoiceBox fx:id="structure" layoutX="393.0" layoutY="241.0" prefHeight="25.0" prefWidth="91.0" />
-      <Button layoutX="487.0" layoutY="241.0" mnemonicParsing="false" text="DP" />
+      <Button layoutX="487.0" layoutY="241.0" mnemonicParsing="false" onAction="#dualPhase" text="DP" />
       <Button layoutX="525.0" layoutY="241.0" mnemonicParsing="false" onAction="#sub" text="SUB" />
       <Button layoutX="388.0" layoutY="274.0" mnemonicParsing="false" onAction="#allBoundaries" text="ALL bounds" />
       <Button layoutX="470.0" layoutY="274.0" mnemonicParsing="false" onAction="#clearInside" text="Clear Inside" />

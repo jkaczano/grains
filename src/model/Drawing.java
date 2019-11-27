@@ -46,14 +46,19 @@ public class Drawing {
     public void randomColors(){
         Random random = new Random();
         colorHashMap = new HashMap<String, Color>();
-        for (int i = 1; i <= grainCount; i++) {
+        int i=2;
+        colorHashMap.put("grain1",Color.rgb(255,102,204));
+        while( i<= grainCount+1) {
             int r = Math.abs(random.nextInt()%255);
             int g = Math.abs(random.nextInt()%255);
             int b = Math.abs(random.nextInt()%255);
-            Color color = Color.rgb(r,g,b);
-            String name = "grain"+i;
-            colorHashMap.put(name, color);
-        }
+            if(r!=255&&g!=102&b!=204) {
+                Color color = Color.rgb(r, g, b);
+                String name = "grain" + i;
+                colorHashMap.put(name, color);
+            i++;
+            }
+                }
         colorHashMap.put("", Color.WHITE);
     }
 

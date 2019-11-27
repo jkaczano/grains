@@ -417,7 +417,7 @@ public class GameLogic {
         Random random = new Random();
         System.out.println("rows = " + rows);
         System.out.println("columns = " + columns);
-        for (int i = 1; i <= grainsCount; i++) {
+        for (int i = 2; i <= grainsCount+1; i++) {
             int x = abs(random.nextInt() % (rows - 2) + 1);
             int y = abs(random.nextInt() % (columns - 2) + 1);
             System.out.println("x = " + x + "y = " + y);
