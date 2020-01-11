@@ -5,14 +5,15 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.*;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import model.Board;
-import model.Drawing;
 import model.GameLogic;
 
 import javax.imageio.ImageIO;
@@ -22,6 +23,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+
+import static model.Drawing.colorHashMap;
+
+//import java.awt.*;
 
 /**
  * Created by jacek_000 on 2018-06-17.
@@ -52,11 +57,13 @@ public class Controller {
     ProgressBar progressBar;
     @FXML
     javafx.scene.control.Label percentage;
+    @FXML
+    TextField monteCarlo;
     Board board;
 
     public GraphicsContext graphicsContext;
     GameLogic gameLogic;
-    int i = 1,p=0,random=0;
+    int i = 0,p=0,random=0;
     private boolean running = true;
 
     @FXML
@@ -93,16 +100,22 @@ public class Controller {
 
     public void drawOnCanvas() {
 
-        i = grainsCount+1;
+       // i = grainsCount+1;
         String phase = String.valueOf(structure.getValue());
+
         canvas.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                double x = event.getX();
-                double y = event.getY();
-                gameLogic.phase((int)x,(int)y,p);
-                System.out.println(p+" canvas");
-                p++;
+
+                @Override
+                public void handle (MouseEvent event){
+
+                int x = (int) event.getX();
+                int y = (int) event.getY();
+                //gameLogic.phase((int)x,(int)y,p);
+                //System.out.println(p+" canvas");
+                //p++;
+                        System.out.println(gameLogic.board.board[x][y].state);
+                gameLogic.ph=gameLogic.board.board[x][y].state;
+
             }
         });
 
@@ -147,7 +160,7 @@ public class Controller {
 
                     String key;
                 key = gameLogic.board.board[i][j].state;
-                javafx.scene.paint.Color fx = Drawing.colorHashMap.get(key);
+                javafx.scene.paint.Color fx = colorHashMap.get(key);
                     java.awt.Color color = new java.awt.Color((float) fx.getRed(),
                         (float) fx.getGreen(),
                         (float) fx.getBlue(),
@@ -170,6 +183,7 @@ public class Controller {
 
     @FXML
     public void importImage(){
+        int id=2;
         BufferedImage img = new BufferedImage(1,1,BufferedImage.TYPE_INT_RGB);
         File image = new File("grain.png");
         try {
@@ -181,6 +195,16 @@ public class Controller {
         canvas.setWidth(img.getWidth());
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.drawImage(convertToFxImage(img),0,0);
+
+//        for (int i = 0; i < gameLogic.rows; i++) {
+//            for (int j = 0; j < gameLogic.columns; j++) {
+//                int colorRGB = img.getRGB(i, j);
+//                int r = (colorRGB & 0x00ff0000) >> 16;
+//                int g = (colorRGB & 0x0000ff00) >> 8;
+//                int b = colorRGB & 0x000000ff;
+//                Color color = new Color.rgb(r,g,b);
+//            }
+//        }
     }
 
     private static javafx.scene.image.Image convertToFxImage(BufferedImage image) {
@@ -307,19 +331,32 @@ public class Controller {
     }
     @FXML
     public void dualPhase(){
+        gameLogic.drawing.colorHashMap.put("", javafx.scene.paint.Color.WHITE);
         for(int i=1;i<canvasWidth-1;i++) {
             for (int j = 1; j < canvasHeight-1; j++) {
-                if(!onList(i,j)){
+                if(gameLogic.board.board[i][j].state!=gameLogic.ph){
                     gameLogic.board.board[i][j].state="";
                 }
-                else {
-                    gameLogic.board.board[i][j].state = "grain1";
-                    gameLogic.board.board[i][j].noGrow=true;
-                }
+//                else {
+//                    gameLogic.board.board[i][j].state = "grain1";
+//                    gameLogic.board.board[i][j].noGrow=true;
+//                }
 
             }
         }
         gameLogic.drawing.drawBoardString(gameLogic.board,1);
+    }
+
+    @FXML
+    public void drawMonteCarlo(){
+        int grains = Integer.parseInt(monteCarlo.getText());
+        gameLogic.monteDraw(grains);
+        System.out.println("monte");
+    }
+    @FXML
+    public void runMC(){
+        //for(int i=0;i<10;i++)
+        gameLogic.calculateEnergy();
     }
 
 }

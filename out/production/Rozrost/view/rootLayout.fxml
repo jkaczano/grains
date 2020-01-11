@@ -50,5 +50,8 @@
       <Button layoutX="470.0" layoutY="274.0" mnemonicParsing="false" onAction="#clearInside" text="Clear Inside" />
       <Label fx:id="percentage" layoutX="549.0" layoutY="278.0" />
       <Button layoutX="388.0" layoutY="307.0" mnemonicParsing="false" onAction="#nBounds" text="N bounds" />
+      <Button layoutX="388.0" layoutY="339.0" mnemonicParsing="false" onAction="#drawMonteCarlo" text="Draw MC" />
+      <TextField fx:id="monteCarlo" layoutX="454.0" layoutY="339.0" prefHeight="25.0" prefWidth="32.0" text="50" />
+      <Button layoutX="498.0" layoutY="339.0" mnemonicParsing="false" onAction="#runMC" text="Run MC" />
    </children>
 </AnchorPane>

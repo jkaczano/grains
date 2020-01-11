@@ -3,8 +3,11 @@ package model;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.RadioButton;
+import javafx.scene.paint.Color;
 
-import java.util.Random;
+import java.awt.*;
+import java.util.*;
+import java.util.List;
 
 import static java.lang.Math.abs;
 
@@ -14,7 +17,7 @@ import static java.lang.Math.abs;
 public class GameLogic {
 
     public int sizeOfCell,intrSize;
-    int rows, columns,random;
+    public int rows, columns,random;
     double canvasHeight, canvasWidth;
     public int grainsCount;
     public String choice,intrType,structs;
@@ -24,6 +27,8 @@ public class GameLogic {
     public Board board;
     public Drawing drawing;
     public GraphicsContext graphicsContext;
+    public static HashMap<String, Color> monteMap = new HashMap<>();
+    public String ph = "";
 
     public GameLogic(int sizeOfCell, double canvasHeight, double canvasWidth, Canvas canvas, int grainsCount, String choice,int intrSize,String intrType,int random,String structs) {
         graphicsContext = canvas.getGraphicsContext2D();
@@ -506,7 +511,7 @@ public class GameLogic {
             }
         }
         System.out.println(counter);
-        if(counter>black+1197)
+        if(counter>black+2*columns+2*rows)
             return false;
         else
             return true;
@@ -520,4 +525,182 @@ public class GameLogic {
         }
         System.out.println("tab "+phases[1]);
     }
+    //HashMap monteMap= new HashMap<String, Color>();
+    public void monteDraw(int grains){
+        Random random = new Random();
+
+        for(int i=1;i<grains;i++)
+        {
+            int r = Math.abs(random.nextInt()%255);
+            int g = Math.abs(random.nextInt()%255);
+            int b = Math.abs(random.nextInt()%255);
+            monteMap.put("grain"+i,Color.rgb(r,g,b));
+        }
+        System.out.println(monteMap);
+            for(int x=1;x<columns;x++){
+                for(int y=1;y<rows;y++){
+                    board.board[x][y].state="grain"+abs(random.nextInt()%(grains-1) +2);
+            }
+        }
+        drawing.drawBoardStringHash(board,1,monteMap);
+    }
+
+    public void calculateEnergy() {
+        List<Point> list = new ArrayList<Point>();
+        //monteMap = new HashMap<String, Color>();
+        //Random rand = new Random();
+        Cell[][] cell =new Cell[rows][columns];
+        for(int i=0;i<columns;i++){
+            for(int j=0;j<rows;j++) {
+                cell[i][j]=new Cell();
+                cell[i][j].state=board.board[i][j].state;
+            }
+        }
+            int x = 0, y = 0;
+            for (int i = 1; i < columns - 1; i++) {
+                for (int j = 1; j < rows - 1; j++) {
+                    list.add(new Point(i, j));
+                }
+            }
+            Collections.shuffle(list);
+            while (!list.isEmpty()) {
+                x = list.get(0).x;
+                y = list.get(0).y;
+                list.remove(0);
+                //System.out.println(x + " " + y);
+                cell[x][y].state = mcEnergy(x, y);
+            }
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                board.board[i][j].state=cell[i][j].state;
+            }
+        }
+            drawing.drawBoardStringHash(board, 1,monteMap);
+            System.out.println("finished");
+
+    }
+    public String mcEnergy(int x,int y) {
+        int[] sameCellCount = new int[8];
+        int eBefore = 0, eAfter = 0;
+        for (int i = 0; i < 8; i++) {
+            sameCellCount[i] = 0;
+        }
+        int startX = x - 1, startY = y - 1, endX = x + 1, endY = y + 1;
+        Random rand = new Random();
+        String state = "";
+        String primarState = board.board[x][y].state;
+        for (int m = x - 1; m <= x + 1; m++) {
+            for (int n = y - 1; n <= y + 1; n++) {
+                if (board.board[m][n].state != board.board[x][y].state && m != x && n != y) {
+                    eBefore++;
+                }
+            }
+        }
+
+//        for (int m = x - 1; m <= x + 1; m++) {
+//            for (int n = y - 1; n <= y + 1; n++) {
+//                if(m!=x || n!=y)
+//                {
+//                    for (int u = startX; u <= endX; u++) {
+//                        for (int o = startY; o <= endY; o++) {
+//                            if(board.board[u][o].intrusion!=1&&!board.board[u][o].noGrow&&board.board[u][o].state!=""&&board.board[m][n].state!=""&&u!=o) {
+//                                if (board.board[u][o].state == board.board[m][n].state && m == x - 1 && n == y - 1)
+//                                    sameCellCount[0]++;
+//                                if (board.board[u][o].state == board.board[m][n].state && m == x && n == y - 1)
+//                                    sameCellCount[1]++;
+//                                if (board.board[u][o].state == board.board[m][n].state && m == x + 1 && n == y - 1)
+//                                    sameCellCount[2]++;
+//                                if (board.board[u][o].state == board.board[m][n].state && m == x - 1 && n == y)
+//                                    sameCellCount[3]++;
+//                                if (board.board[u][o].state == board.board[m][n].state && m == x + 1 && n == y)
+//                                    sameCellCount[4]++;
+//                                if (board.board[u][o].state == board.board[m][n].state && m == x - 1 && n == y + 1)
+//                                    sameCellCount[5]++;
+//                                if (board.board[u][o].state == board.board[m][n].state && m == x && n == y + 1)
+//                                    sameCellCount[6]++;
+//                                if (board.board[u][o].state == board.board[m][n].state && m == x + 1 && n == y + 1)
+//                                    sameCellCount[7]++;
+//                            }
+//                        }
+//                    }
+//                }
+//            }}
+//            int neiber=0;
+//        for(int i=0;i<8;i++)
+//        {
+//            if(sameCellCount[i]>0)
+//                neiber++;
+//        }
+//        String[] neib=new String[neiber];
+        int c = 0;
+
+        c = abs(rand.nextInt()) % 8;
+        //for(int i=0;i<8;i++) {
+        //    if (sameCellCount[i] > 0) {
+        switch (c) {
+            case 0: {
+
+                state = board.board[x - 1][y - 1].state;//neib[c] = state;
+                c++;
+                break;
+            }
+            case 1: {
+                state = board.board[x][y - 1].state;//neib[c] = state;
+                c++;
+                break;
+            }
+            case 2: {
+                state = board.board[x + 1][y - 1].state;//neib[c] = state;
+                c++;
+                break;
+            }
+            case 3: {
+                state = board.board[x - 1][y].state;//neib[c] = state;
+                c++;
+                break;
+            }
+            case 4: {
+                state = board.board[x + 1][y].state;//neib[c] = state;
+                c++;
+                break;
+            }
+            case 5: {
+                state = board.board[x - 1][y + 1].state;//neib[c] = state;
+                c++;
+                break;
+            }
+            case 6: {
+                state = board.board[x][y + 1].state;//neib[c] = state;
+                c++;
+                break;
+            }
+            case 7: {
+                state = board.board[x + 1][y + 1].state;//neib[c] = state;
+                c++;
+                break;
+            }
+            default: {
+                state = "";
+            }
+        }
+        //neib[c] = state;
+        //c++;
+
+        String stt = "";
+        //stt = neib[abs(rand.nextInt()) % neiber];
+
+        for (int m = x - 1; m <= x + 1; m++) {
+            for (int n = y - 1; n <= y + 1; n++) {
+                if (board.board[m][n].state != state && m != x && n != y) {
+                    eAfter++;
+                }
+            }
+        }
+        if (eAfter - eBefore <= 0)
+            return state;
+        else
+            return primarState;
+    }
+
+
 }
