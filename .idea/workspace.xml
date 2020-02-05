@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="dc16d4c2-54f0-4818-adad-707e5a74ce69" name="Default" comment="c2">
+    <list default="true" id="dc16d4c2-54f0-4818-adad-707e5a74ce69" name="Default" comment="nucl grow v.1">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Rozrost/model/Board.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Rozrost/model/Board.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Rozrost/model/Drawing.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Rozrost/model/Drawing.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Rozrost/model/GameLogic.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Rozrost/model/GameLogic.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Rozrost/view/Controller$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Rozrost/view/Controller$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Rozrost/view/Controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Rozrost/view/Controller.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Rozrost/view/rootLayout.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Rozrost/view/rootLayout.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Board.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/Drawing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Drawing.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/GameLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/GameLogic.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/view/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/rootLayout.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/rootLayout.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -271,7 +266,14 @@
       <option name="project" value="LOCAL" />
       <updated>1580903700472</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="nucl grow v.1">
+      <created>1580914286873</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1580914286873</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TodoView">
@@ -292,7 +294,8 @@
     <MESSAGE value="boundaries and clearing" />
     <MESSAGE value="sub + dp" />
     <MESSAGE value="c2" />
-    <option name="LAST_COMMIT_MESSAGE" value="c2" />
+    <MESSAGE value="nucl grow v.1" />
+    <option name="LAST_COMMIT_MESSAGE" value="nucl grow v.1" />
   </component>
   <component name="WindowStateProjectService">
     <state x="361" y="72" key="#Notifications" timestamp="1580903688626">
@@ -303,30 +306,30 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="618" y="302" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1536.824@0.0.1536.824" timestamp="1578758278440" />
-    <state x="455" y="8" key="CommitChangelistDialog2" timestamp="1580903699466">
+    <state x="455" y="8" key="CommitChangelistDialog2" timestamp="1580914285149">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="455" y="8" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1580903699466" />
+    <state x="455" y="8" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1580914285149" />
     <state x="549" y="155" key="FileChooserDialogImpl" timestamp="1580718895450">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="549" y="155" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1580718895450" />
-    <state width="1493" height="131" key="GridCell.Tab.0.bottom" timestamp="1580910747119">
+    <state width="1493" height="131" key="GridCell.Tab.0.bottom" timestamp="1580918912940">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="131" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1580910747119" />
-    <state width="1493" height="131" key="GridCell.Tab.0.center" timestamp="1580910747119">
+    <state width="1493" height="131" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1580918912940" />
+    <state width="1493" height="131" key="GridCell.Tab.0.center" timestamp="1580918912940">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="131" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1580910747119" />
-    <state width="1493" height="131" key="GridCell.Tab.0.left" timestamp="1580910747118">
+    <state width="1493" height="131" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1580918912940" />
+    <state width="1493" height="131" key="GridCell.Tab.0.left" timestamp="1580918912940">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="131" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1580910747118" />
-    <state width="1493" height="131" key="GridCell.Tab.0.right" timestamp="1580910747119">
+    <state width="1493" height="131" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1580918912940" />
+    <state width="1493" height="131" key="GridCell.Tab.0.right" timestamp="1580918912940">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="131" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1580910747119" />
+    <state width="1493" height="131" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1580918912940" />
     <state width="1493" height="175" key="GridCell.Tab.1.bottom" timestamp="1580909464238">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -351,10 +354,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="586" y="124" key="RollbackChangesDialog/0.0.1536.824@0.0.1536.824" timestamp="1580903694635" />
-    <state x="361" y="146" key="Vcs.Push.Dialog.v2" timestamp="1580903701757">
+    <state x="361" y="146" key="Vcs.Push.Dialog.v2" timestamp="1580914288511">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="146" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1580903701757" />
+    <state x="361" y="146" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1580914288511" />
     <state x="465" y="238" key="com.intellij.ide.util.TipDialog" timestamp="1580718732797">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

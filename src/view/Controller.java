@@ -363,8 +363,8 @@ public class Controller {
         }
         for(int i=1;i<canvasWidth-1;i++) {
             for (int j = 1; j < canvasHeight-1; j++) {
-                if(gameLogic.board.board[i][j].state==gameLogic.ph){
-                    //brd[i][j].state="grain1";
+                if(gameLogic.board.board[i][j].state.equals(gameLogic.ph)){
+                    brd[i][j].state="grain1";
                     gameLogic.board.board[i][j].dp=true;
                     gameLogic.board.board[i][j].noGrow=true;
                     gameLogic.nogrow++;
@@ -391,7 +391,7 @@ public class Controller {
     @FXML
     public void runMC(){
         for(int i=0;i<10;i++)
-        gameLogic.calculateEnergy();
+        gameLogic.calculateEnergy(i);
     }
     @FXML
     public void handleEnergy()

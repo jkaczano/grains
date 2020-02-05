@@ -107,7 +107,8 @@ public class Drawing {
     }
 
     public void drawEnergy(Board board){
-        HashMap<String, Color> tempMap = colorHashMap;
+        HashMap<String, Color> tempMap;
+        tempMap = colorHashMap;
         Cell[][] brd = new Cell[300][300];
         for (int i = 0; i < 300; i++) {
             for (int j = 0; j < 300; j++) {
@@ -115,6 +116,7 @@ public class Drawing {
                 brd[i][j].state=board.board[i][j].state;
             }
         }
+
         for(int i=0;i<9;i++){
             Color color = Color.rgb(0,0,60 + 20*i);
             colorHashMap.put("grain"+i,color);
@@ -127,6 +129,7 @@ public class Drawing {
             }
         }
         drawBoardString(board,1);
+
         colorHashMap = tempMap;
         for (int i = 0; i < 300; i++) {
             for (int j = 0; j < 300; j++) {

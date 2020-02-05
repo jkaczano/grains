@@ -538,19 +538,24 @@ public class GameLogic {
 //            monteMap.put("grain"+i,Color.rgb(r,g,b));
 //        }
 //        System.out.println(monteMap);
+        String str="grain3";
         drawing.randomColors();
         int g2=0;
             for(int x=1;x<columns;x++){
                 for(int y=1;y<rows;y++){
-                    board.board[x][y].state="grain"+(abs(random.nextInt()%grains) +2);
-                    if(board.board[x][y].state=="grain3")g2++;//System.out.println(board.board[x][y].state);
+                    if(board.board[x][y].noGrow==false)
+                    board.board[x][y].state= "grain" + (abs(random.nextInt() % grains) + 2);
+                    if(str.equals(board.board[x][y].state)){
+                        g2++;
+                    }
+                   // System.out.println(board.board[x][y].state);
             }
         }
         System.out.println(g2);
         drawing.drawBoardString(board,1);
     }
 
-    public void calculateEnergy() {
+    public void calculateEnergy(int c) {
         List<Point> list = new ArrayList<Point>();
         //monteMap = new HashMap<String, Color>();
         //Random rand = new Random();
@@ -581,7 +586,7 @@ public class GameLogic {
             }
         }
             drawing.drawBoardString(board, 1);
-            System.out.println("finished");
+            System.out.println("finished "+c);
 
     }
     public String mcEnergy(int x,int y) {
@@ -596,7 +601,7 @@ public class GameLogic {
         String primarState = board.board[x][y].state;
         for (int m = x - 1; m <= x + 1; m++) {
             for (int n = y - 1; n <= y + 1; n++) {
-                if (board.board[m][n].state != board.board[x][y].state && m != x && n != y) {
+                if (board.board[m][n].noGrow==false && board.board[m][n].state != board.board[x][y].state && m != x && n != y) {
                     eBefore++;
                 }
             }
@@ -696,7 +701,7 @@ public class GameLogic {
 
         for (int m = x - 1; m <= x + 1; m++) {
             for (int n = y - 1; n <= y + 1; n++) {
-                if (board.board[m][n].state != state && m != x && n != y) {
+                if (board.board[m][n].noGrow==false && board.board[m][n].state != state && m != x && n != y) {
                     eAfter++;
                 }
             }
