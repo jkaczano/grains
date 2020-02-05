@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="view.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="650.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="view.Controller">
   <children>
     <Canvas fx:id="canvas" height="300.0" layoutX="25.0" layoutY="39.0" width="300.0" />
     <Button layoutX="438.0" layoutY="121.0" mnemonicParsing="false" onAction="#handleGenerateButton" text="Generate" />
@@ -56,7 +56,7 @@
     <Button layoutX="388.0" layoutY="307.0" mnemonicParsing="false" onAction="#nBounds" text="N bounds" />
     <Button layoutX="388.0" layoutY="339.0" mnemonicParsing="false" onAction="#drawMonteCarlo" text="Draw MC" />
     <TextField fx:id="monteCarlo" layoutX="454.0" layoutY="339.0" prefHeight="25.0" prefWidth="32.0" text="3" />
-    <Button layoutX="498.0" layoutY="339.0" mnemonicParsing="false" onAction="#runMC" text="Run MC" />
+    <Button layoutX="498.0" layoutY="339.0" mnemonicParsing="false" onAction="#runMC" prefWidth="82.0" text="Run MC" />
     <RadioButton fx:id="homo" layoutX="353.0" layoutY="373.0" mnemonicParsing="false" text="homogenous" />
     <RadioButton fx:id="hetero" layoutX="476.0" layoutY="373.0" mnemonicParsing="false" text="heterogenous" />
     <Button layoutX="353.0" layoutY="405.0" mnemonicParsing="false" onAction="#handleEnergy" text="Energy" />
@@ -66,5 +66,8 @@
     <RadioButton fx:id="atbos" layoutX="163.0" layoutY="449.0" mnemonicParsing="false" text="Atbos" />
     <Button layoutX="246.0" layoutY="456.0" mnemonicParsing="false" onAction="#handleSRX" text="SRX" />
     <RadioButton fx:id="onBoundary" layoutX="30.0" layoutY="419.0" mnemonicParsing="false" text="on boundary" />
+    <TextField fx:id="mci" layoutX="591.0" layoutY="338.0" prefWidth="45.0" text="5" />
+    <TextField fx:id="factor" layoutX="549.0" layoutY="453.0" prefWidth="36.0" text="0.5" />
+    <Label layoutX="504.0" layoutY="453.0" text="J (0;1)" />
   </children>
 </AnchorPane>

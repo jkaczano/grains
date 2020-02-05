@@ -56,15 +56,15 @@ public class Drawing {
             }}
         }
     }
-    public void drawBoardStringBoard(Cell[][] board,int size){
-        String key = "";
+    public void drawBoardStringHash(Board board,int size,HashMap<String,Color> map){
+        String key = "grain1";
         for (int i = 0; i < canvasHeight/sizeOfCell; i++) {
             for (int j = 0; j < canvasWidth/sizeOfCell; j++) {
-                if(board[i][j].intrusion==1)
+                if(board.board[i][j].intrusion==1)
                     graphicsContext.setFill(Color.BLACK);
                 else{
-                    key = board[i][j].state;
-                    graphicsContext.setFill(colorHashMap.get(key));
+                    key = board.board[i][j].state;
+                    graphicsContext.setFill(map.get(key));
                 }
                 graphicsContext.fillRect(i * sizeOfCell, j * sizeOfCell,sizeOfCell*size, sizeOfCell * size);
             }
@@ -107,8 +107,7 @@ public class Drawing {
     }
 
     public void drawEnergy(Board board){
-        HashMap<String, Color> tempMap;
-        tempMap = colorHashMap;
+        HashMap<String, Color> energyHashMap = new HashMap<String, Color>();
         Cell[][] brd = new Cell[300][300];
         for (int i = 0; i < 300; i++) {
             for (int j = 0; j < 300; j++) {
@@ -119,7 +118,7 @@ public class Drawing {
 
         for(int i=0;i<9;i++){
             Color color = Color.rgb(0,0,60 + 20*i);
-            colorHashMap.put("grain"+i,color);
+            energyHashMap.put("grain"+i,color);
         }
 
         String name="grain0";
@@ -128,9 +127,7 @@ public class Drawing {
                 board.board[i][j].state="grain"+board.energy[i][j].energy;
             }
         }
-        drawBoardString(board,1);
-
-        colorHashMap = tempMap;
+        drawBoardStringHash(board,1,energyHashMap);
         for (int i = 0; i < 300; i++) {
             for (int j = 0; j < 300; j++) {
 
