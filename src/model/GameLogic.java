@@ -28,8 +28,8 @@ public class GameLogic {
     public Drawing drawing;
     public GraphicsContext graphicsContext;
     public static HashMap<String, Color> monteMap = new HashMap<>();
-    public String ph = "";
-
+    public String ph = "grain3";
+    public int nucl=0;
     public GameLogic(int sizeOfCell, double canvasHeight, double canvasWidth, Canvas canvas, int grainsCount, String choice,int intrSize,String intrType,int random,String structs) {
         graphicsContext = canvas.getGraphicsContext2D();
         this.sizeOfCell = sizeOfCell;
@@ -56,14 +56,14 @@ public class GameLogic {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 brd[i][j] = new Cell();
-                if(board.board[i][j].state != "")
+                if(board.board[i][j].state != "grain0")
                 brd[i][j].state=board.board[i][j].state;
             }
             }
 
         for (int i = 1; i < rows-1; i++) {
             for (int j = 1; j < columns-1; j++) {
-                if (board.board[i][j].state == "") {
+                if (board.board[i][j].state == "grain0") {
                     brd[i][j].state=energy(i,j);
                 }
             }
@@ -85,14 +85,14 @@ public class GameLogic {
         {sameCellCount[i]=0;}
         int startX=x-1,startY=y-1,endX=x+1,endY=y+1;
         Random rand = new Random();
-        String state = "";
+        String state = "grain0";
         for (int m = x - 1; m <= x + 1; m++) {
             for (int n = y - 1; n <= y + 1; n++) {
             if(m!=x || n!=y)
             {
                 for (int u = startX; u <= endX; u++) {
                     for (int o = startY; o <= endY; o++) {
-                        if(board.board[u][o].intrusion!=1&&!board.board[u][o].noGrow&&board.board[u][o].state!=""&&board.board[m][n].state!=""&&u!=o) {
+                        if(board.board[u][o].intrusion!=1&&!board.board[u][o].noGrow&&board.board[u][o].state!="grain0"&&board.board[m][n].state!="grain0"&&u!=o) {
                             if (board.board[u][o].state == board.board[m][n].state && m == x - 1 && n == y - 1)
                                 sameCellCount[0]++;
                             if (board.board[u][o].state == board.board[m][n].state && m == x && n == y - 1)
@@ -161,7 +161,7 @@ public class GameLogic {
                             break;
                         }
                         default: {
-                            state = "";
+                            state = "grain0";
                         }
                     }
                 } catch (Exception e) {
@@ -225,7 +225,7 @@ public class GameLogic {
                             break;
                         }
                         default: {
-                            state = "";
+                            state = "grain0";
                         }
                     }
                 } catch (Exception e) {
@@ -416,13 +416,13 @@ public class GameLogic {
         }
 
     }
-
+    public int grains;
     public void randomGrains() {
         String grainName = "grain";
         Random random = new Random();
         System.out.println("rows = " + rows);
         System.out.println("columns = " + columns);
-        for (int i = 2; i <= grainsCount+1; i++) {
+        for (int i = 2; i <= 10; i++) {
             int x = abs(random.nextInt() % (rows - 2) + 1);
             int y = abs(random.nextInt() % (columns - 2) + 1);
             System.out.println("x = " + x + "y = " + y);
@@ -500,18 +500,18 @@ public class GameLogic {
         drawing.drawBoardString(board,5);
         return board;
     }
-
+    public int nogrow=0;
     public boolean cntr(Board brd){
         int counter = 0;
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                if(brd.board[i][j].state==""){
+                if(brd.board[i][j].state=="grain0"){
                     counter++;
                 }
             }
         }
         System.out.println(counter);
-        if(counter>black+2*columns+2*rows)
+        if(counter>black+2*columns+2*rows+nogrow)
             return false;
         else
             return true;
@@ -528,21 +528,26 @@ public class GameLogic {
     //HashMap monteMap= new HashMap<String, Color>();
     public void monteDraw(int grains){
         Random random = new Random();
-
-        for(int i=1;i<grains;i++)
-        {
-            int r = Math.abs(random.nextInt()%255);
-            int g = Math.abs(random.nextInt()%255);
-            int b = Math.abs(random.nextInt()%255);
-            monteMap.put("grain"+i,Color.rgb(r,g,b));
-        }
-        System.out.println(monteMap);
+//        monteMap.put("grain0",Color.rgb(20,40,60));
+//        monteMap.put("grain1",Color.rgb(255,255,255));
+//        for(int i=2;i<grains+2;i++)
+//        {
+//            int r = Math.abs(random.nextInt()%255);
+//            int g = Math.abs(random.nextInt()%255);
+//            int b = Math.abs(random.nextInt()%255);
+//            monteMap.put("grain"+i,Color.rgb(r,g,b));
+//        }
+//        System.out.println(monteMap);
+        drawing.randomColors();
+        int g2=0;
             for(int x=1;x<columns;x++){
                 for(int y=1;y<rows;y++){
-                    board.board[x][y].state="grain"+abs(random.nextInt()%(grains-1) +2);
+                    board.board[x][y].state="grain"+(abs(random.nextInt()%grains) +2);
+                    if(board.board[x][y].state=="grain3")g2++;//System.out.println(board.board[x][y].state);
             }
         }
-        drawing.drawBoardStringHash(board,1,monteMap);
+        System.out.println(g2);
+        drawing.drawBoardString(board,1);
     }
 
     public void calculateEnergy() {
@@ -575,7 +580,7 @@ public class GameLogic {
                 board.board[i][j].state=cell[i][j].state;
             }
         }
-            drawing.drawBoardStringHash(board, 1,monteMap);
+            drawing.drawBoardString(board, 1);
             System.out.println("finished");
 
     }

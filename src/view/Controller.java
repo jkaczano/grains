@@ -5,25 +5,27 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ProgressBar;
+import javafx.scene.control.*;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import model.Board;
+import model.Cell;
 import model.GameLogic;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.Button;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Random;
 
+import static java.lang.Math.abs;
 import static model.Drawing.colorHashMap;
 
 //import java.awt.*;
@@ -59,6 +61,17 @@ public class Controller {
     javafx.scene.control.Label percentage;
     @FXML
     TextField monteCarlo;
+    @FXML
+    RadioButton hetero;
+    @FXML
+    RadioButton homo;
+    @FXML
+    RadioButton cons;
+    @FXML
+    RadioButton incr;
+    @FXML
+    RadioButton atbos;
+
     Board board;
 
     public GraphicsContext graphicsContext;
@@ -96,6 +109,12 @@ public class Controller {
         gameLogic = new GameLogic(sizeOfCell, canvasHeight, canvasWidth, canvas, grainsCount, choice,intrSize,intrType,random,structs);
         gameLogic.drawing.clearBoard();
         drawOnCanvas();
+        for (int i = 0; i < 300; i++) {
+            for (int j = 0; j < 300; j++) {
+                gameLogic.board.board[i][j] = new Cell();
+                gameLogic.board.board[i][j].state="grain0";
+            }
+        }
     }
 
     public void drawOnCanvas() {
@@ -113,9 +132,9 @@ public class Controller {
                 //gameLogic.phase((int)x,(int)y,p);
                 //System.out.println(p+" canvas");
                 //p++;
-                        System.out.println(gameLogic.board.board[x][y].state);
+                //        System.out.println(gameLogic.board.board[x][y].state);
                 gameLogic.ph=gameLogic.board.board[x][y].state;
-
+                    System.out.println(gameLogic.ph);
             }
         });
 
@@ -331,19 +350,33 @@ public class Controller {
     }
     @FXML
     public void dualPhase(){
-        gameLogic.drawing.colorHashMap.put("", javafx.scene.paint.Color.WHITE);
+        //gameLogic.drawing.colorHashMap.put("", javafx.scene.paint.Color.WHITE);
+        Cell[][] brd = new Cell[300][300];
+        for (int i = 0; i < 300; i++) {
+            for (int j = 0; j < 300; j++) {
+                brd[i][j] = new Cell();
+                //if(board.board[i][j].state != "")
+                   // brd[i][j].state=board.board[i][j].state;
+            }
+        }
         for(int i=1;i<canvasWidth-1;i++) {
             for (int j = 1; j < canvasHeight-1; j++) {
-                if(gameLogic.board.board[i][j].state!=gameLogic.ph){
-                    gameLogic.board.board[i][j].state="";
+                if(gameLogic.board.board[i][j].state==gameLogic.ph){
+                    //brd[i][j].state="grain1";
+                    gameLogic.board.board[i][j].dp=true;
+                    gameLogic.board.board[i][j].noGrow=true;
+                    gameLogic.nogrow++;
                 }
-//                else {
-//                    gameLogic.board.board[i][j].state = "grain1";
-//                    gameLogic.board.board[i][j].noGrow=true;
-//                }
+                else {
+                    brd[i][j].state = "grain0";
+                }
 
             }
         }
+        for (int i = 0; i < 300; i++) {
+            for (int j = 0; j < 300; j++) {
+                gameLogic.board.board[i][j].state = brd[i][j].state;
+            }}
         gameLogic.drawing.drawBoardString(gameLogic.board,1);
     }
 
@@ -355,8 +388,100 @@ public class Controller {
     }
     @FXML
     public void runMC(){
-        //for(int i=0;i<10;i++)
+        for(int i=0;i<10;i++)
         gameLogic.calculateEnergy();
     }
+    @FXML
+    public void handleEnergy()
+    {
+        if(homo.isSelected()){
+            for (int i = 0; i < 300; i++) {
+                for (int j = 0; j < 300; j++) {
+                 gameLogic.board.energy[i][j].energy=5;
+                }
+            }
+        }
+        if(hetero.isSelected()){
+            for (int i = 1; i < 300-1; i++) {
+                for (int j = 1; j < 300-1; j++) {
+                    for (int u = i-1; u <= i+1; u++) {
+                        for (int o = j-1; o <= j+1; o++) {
+                            if(gameLogic.board.board[i][j].state!=gameLogic.board.board[u][o].state)
+                                gameLogic.board.energy[i][j].energy=7;
+                            else
+                                gameLogic.board.energy[i][j].energy=2;
+                        }
+                    }
+                }
+            }
+        }
+        gameLogic.drawing.drawEnergy(gameLogic.board);
+    }
+    @FXML
+    public void backToStruct(){
+        gameLogic.drawing.drawBoardString(gameLogic.board,1);
+    }
+
+    @FXML
+    public void handleSRX(){
+        Random random = new Random();
+        for (int i = 0; i < 300; i++) {
+            for (int j = 0; j < 300; j++) {
+                gameLogic.board.nucleon[i][j]=gameLogic.board.board[i][j];
+            }
+        }
+        if(cons.isSelected()){ //losowanie nowych nukleonow
+            for (int i = 2; i <= 10; i++) {
+                int x = abs(random.nextInt() % (300 - 3)) + 1;
+                int y = abs(random.nextInt() % (300 - 3)) + 1;
+                gameLogic.board.nucleon[x][y].isrecry=true;
+            }
+        }
+        int ener=0;
+        for (int i = 1; i < 298; i++) { //liczenie energii przed
+            for (int j = 1; j < 298; j++) {
+                for (int u = i-1; u <= i+1; u++) {
+                    for (int o = j-1; o <= j+1; o++) {
+                        if(u!=o&&gameLogic.board.nucleon[u][o].isrecry==true){
+                            gameLogic.board.nucleon[i][j].isrecry=true;
+                        }}}}}
+//                            for (int p = i-1; p <= i+1; p++) {
+//                                for (int l = j-1; l <= j+1; l++) {
+//                                    if(p!=l&&gameLogic.board.board[p][l].state==gameLogic.board.board[i][j].state)
+//                                        ener++;
+//                                }}
+//                            gameLogic.board.board[i][j].isrecry=true;
+//                        }
+//                    }
+//                }
+//                gameLogic.board.energy[i][j].energy+=ener;
+//                ener=0;
+//            }
+//        }
+//
+//
+//        for (int i = 1; i < 298; i++) { //liczenie energii przed
+//            for (int j = 1; j < 298; j++) {gameLogic.board.nucleon[i][j].isrecry=true;
+//            }}
+//
+//        for (int i = 1; i < 298; i++) { //liczenie energii po
+//            for (int j = 1; j < 298; j++) {
+//
+//                        if(gameLogic.board.nucleon[i][j].isrecry==true){
+//                              for (int p = i-1; p <= i+1; p++) {
+//                                for (int l = j-1; l <= j+1; l++) {
+//                                    if(p!=l&&gameLogic.board.board[p][l].state==gameLogic.board.board[i][j].state)
+//                                        ener++;
+//                                }}
+//                        }
+//                gameLogic.board.board[i][j].energy+=ener;
+//                ener=0;
+//                if(gameLogic.board.board[i][j].energy-gameLogic.board.energy[i][j].energy<=0)gameLogic.board.nucleon[i][j].isrecry=false;
+//                    }
+//                }
+
+        gameLogic.drawing.drawNucleons(gameLogic.board,gameLogic.nucl);
+        gameLogic.nucl++;
+            }
 
 }

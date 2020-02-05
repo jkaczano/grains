@@ -7,6 +7,9 @@ public class Cell {
     public String state;
     public int intrusion;
     public boolean noGrow;
+    public int energy;
+    public boolean isrecry;
+    public boolean dp;
     public Cell()
     {
         state ="";
