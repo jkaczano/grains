@@ -71,6 +71,8 @@ public class Controller {
     RadioButton incr;
     @FXML
     RadioButton atbos;
+    @FXML
+    RadioButton onBoundary;
 
     Board board;
 
@@ -423,65 +425,123 @@ public class Controller {
     }
 
     @FXML
-    public void handleSRX(){
+    public void handleSRX() {
         Random random = new Random();
+        Cell[][] brd = new Cell[300][300];
         for (int i = 0; i < 300; i++) {
             for (int j = 0; j < 300; j++) {
-                gameLogic.board.nucleon[i][j]=gameLogic.board.board[i][j];
+                brd[i][j] = new Cell();
+                //if(board.board[i][j].state != "")
+                brd[i][j].state="grain0";
             }
         }
-        if(cons.isSelected()){ //losowanie nowych nukleonow
+        gameLogic.drawing.drawBoardString(gameLogic.board, 1);
+        //gameLogic.board.clearBoard();
+        if (cons.isSelected()&&gameLogic.nucl<10) { //losowanie nowych nukleonow
+            if(onBoundary.isSelected()){
             for (int i = 2; i <= 10; i++) {
+                boolean isonb=false;
+                while(!isonb){
+                    int x = abs(random.nextInt() % (300 - 3)) + 1;
+                    int y = abs(random.nextInt() % (300 - 3) )+ 1;
+                    int startX = x - 1;
+                    int startY = y - 1;
+                    int endX = x + 1;
+                    int endY = y + 1;
+
+                    for (int u = startX; u <= endX; u++) {
+                        for (int o = startY; o <= endY; o++) {
+                            if(gameLogic.board.board[x][y].state!=gameLogic.board.board[u][o].state)
+                            {
+                                gameLogic.board.nucleon[x][y].isrecry = true;
+                                gameLogic.board.nucleon[x][y].state = "grain" + (10 + i);
+                                isonb=!isonb;
+                            }
+
+                        }
+                    }
+                    //System.out.println(counter);
+                }
+            }}
+            else{for (int i = 2; i <= 10; i++) {
                 int x = abs(random.nextInt() % (300 - 3)) + 1;
                 int y = abs(random.nextInt() % (300 - 3)) + 1;
-                gameLogic.board.nucleon[x][y].isrecry=true;
+                System.out.println("x=" + x + " y=" + y);
+                gameLogic.board.nucleon[x][y].isrecry = true;
+                gameLogic.board.nucleon[x][y].state = "grain" + (10 + i);
+            }}
+        }
+        for (int i = 2; i < 298; i++) {
+            for (int j = 2; j < 298; j++) {
+                for (int m = i - 1; m <= i + 1; m++) {
+                    for (int n = j - 1; n <= j + 1; n++) {
+                        if(m!=i || n!=j) {
+                            if(gameLogic.board.nucleon[i][j].state=="grain0"&&gameLogic.board.nucleon[m][n].state!="grain0"){
+                                brd[i][j].state=gameLogic.board.nucleon[m][n].state;
+                            }
+                        }
+                        }
+                    }
             }
         }
-        int ener=0;
-        for (int i = 1; i < 298; i++) { //liczenie energii przed
-            for (int j = 1; j < 298; j++) {
-                for (int u = i-1; u <= i+1; u++) {
-                    for (int o = j-1; o <= j+1; o++) {
-                        if(u!=o&&gameLogic.board.nucleon[u][o].isrecry==true){
-                            gameLogic.board.nucleon[i][j].isrecry=true;
-                        }}}}}
-//                            for (int p = i-1; p <= i+1; p++) {
-//                                for (int l = j-1; l <= j+1; l++) {
-//                                    if(p!=l&&gameLogic.board.board[p][l].state==gameLogic.board.board[i][j].state)
-//                                        ener++;
-//                                }}
-//                            gameLogic.board.board[i][j].isrecry=true;
-//                        }
-//                    }
-//                }
-//                gameLogic.board.energy[i][j].energy+=ener;
-//                ener=0;
-//            }
-//        }
-//
-//
-//        for (int i = 1; i < 298; i++) { //liczenie energii przed
-//            for (int j = 1; j < 298; j++) {gameLogic.board.nucleon[i][j].isrecry=true;
-//            }}
-//
-//        for (int i = 1; i < 298; i++) { //liczenie energii po
-//            for (int j = 1; j < 298; j++) {
-//
-//                        if(gameLogic.board.nucleon[i][j].isrecry==true){
-//                              for (int p = i-1; p <= i+1; p++) {
-//                                for (int l = j-1; l <= j+1; l++) {
-//                                    if(p!=l&&gameLogic.board.board[p][l].state==gameLogic.board.board[i][j].state)
-//                                        ener++;
-//                                }}
-//                        }
-//                gameLogic.board.board[i][j].energy+=ener;
-//                ener=0;
-//                if(gameLogic.board.board[i][j].energy-gameLogic.board.energy[i][j].energy<=0)gameLogic.board.nucleon[i][j].isrecry=false;
-//                    }
-//                }
 
+        for (int i = 0; i < 300; i++) {
+            for (int j = 0; j < 300; j++) {
+                if(brd[i][j].state!="grain0")
+                gameLogic.board.nucleon[i][j].state=brd[i][j].state;
+                //if(board.board[i][j].state != "")
+                // brd[i][j].state=board.board[i][j].state;
+            }
+        }
         gameLogic.drawing.drawNucleons(gameLogic.board,gameLogic.nucl);
         gameLogic.nucl++;
-            }
+        //gameLogic.drawing.drawBoardString2(gameLogic.board, 1);
+    }
+//        int ener=0;
+//        for (int i = 1; i < 298; i++) { //liczenie energii przed
+//            for (int j = 1; j < 298; j++) {
+//                for (int u = i-1; u <= i+1; u++) {
+//                    for (int o = j-1; o <= j+1; o++) {
+//                        if(u!=o&&gameLogic.board.board[u][o].isrecry==true){
+//                            gameLogic.board.board[i][j].isrecry=true;
+//                        }}}}}
+////                            for (int p = i-1; p <= i+1; p++) {
+////                                for (int l = j-1; l <= j+1; l++) {
+////                                    if(p!=l&&gameLogic.board.board[p][l].state==gameLogic.board.board[i][j].state)
+////                                        ener++;
+////                                }}
+////                            gameLogic.board.board[i][j].isrecry=true;
+////                        }
+////                    }
+////                }
+////                gameLogic.board.energy[i][j].energy+=ener;
+////                ener=0;
+////            }
+////        }
+////
+////
+////        for (int i = 1; i < 298; i++) { //liczenie energii przed
+////            for (int j = 1; j < 298; j++) {gameLogic.board.nucleon[i][j].isrecry=true;
+////            }}
+////
+////        for (int i = 1; i < 298; i++) { //liczenie energii po
+////            for (int j = 1; j < 298; j++) {
+////
+////                        if(gameLogic.board.nucleon[i][j].isrecry==true){
+////                              for (int p = i-1; p <= i+1; p++) {
+////                                for (int l = j-1; l <= j+1; l++) {
+////                                    if(p!=l&&gameLogic.board.board[p][l].state==gameLogic.board.board[i][j].state)
+////                                        ener++;
+////                                }}
+////                        }
+////                gameLogic.board.board[i][j].energy+=ener;
+////                ener=0;
+////                if(gameLogic.board.board[i][j].energy-gameLogic.board.energy[i][j].energy<=0)gameLogic.board.nucleon[i][j].isrecry=false;
+////                    }
+////                }
+//
+//        gameLogic.drawing.drawNucleons(gameLogic.board,gameLogic.nucl);
+//        gameLogic.nucl++;
+//            }
 
 }

@@ -36,8 +36,6 @@ public class Drawing {
                 if(board.board[i][j].intrusion==1)
                     graphicsContext.setFill(Color.BLACK);
                 else{
-                    if(board.board[i][j].dp==true)key="grain1";
-                    else
                     key = board.board[i][j].state;
                     graphicsContext.setFill(colorHashMap.get(key));
                 }
@@ -45,15 +43,28 @@ public class Drawing {
             }
         }
     }
-    public void drawBoardStringHash(Board board,int size,HashMap<String, Color> map){
+    public void drawBoardString2(Board board,int size){
+        String key = "grain1";
+        for (int i = 0; i < canvasHeight/sizeOfCell; i++) {
+            for (int j = 0; j < canvasWidth/sizeOfCell; j++) {
+                if(board.nucleon[i][j].state!="grain0"){
+
+                    key = board.nucleon[i][j].state;
+                    graphicsContext.setFill(colorHashMap.get(key));
+
+                graphicsContext.fillRect(i * sizeOfCell, j * sizeOfCell,sizeOfCell*size, sizeOfCell * size);
+            }}
+        }
+    }
+    public void drawBoardStringBoard(Cell[][] board,int size){
         String key = "";
         for (int i = 0; i < canvasHeight/sizeOfCell; i++) {
             for (int j = 0; j < canvasWidth/sizeOfCell; j++) {
-                if(board.board[i][j].intrusion==1)
+                if(board[i][j].intrusion==1)
                     graphicsContext.setFill(Color.BLACK);
                 else{
-                    key = board.board[i][j].state;
-                    graphicsContext.setFill(map.get(key));
+                    key = board[i][j].state;
+                    graphicsContext.setFill(colorHashMap.get(key));
                 }
                 graphicsContext.fillRect(i * sizeOfCell, j * sizeOfCell,sizeOfCell*size, sizeOfCell * size);
             }
@@ -128,32 +139,11 @@ public class Drawing {
 
     ////////////////////////////////////////////////////////////////////////
     public void drawNucleons(Board board,int nucl) {
-        HashMap<String, Color> tempMap = colorHashMap;
-        Cell[][] brd = new Cell[300][300];
-        for (int i = 0; i < 300; i++) {
-            for (int j = 0; j < 300; j++) {
-                brd[i][j] = new Cell();
-                brd[i][j].state=board.board[i][j].state;
-            }
-        }
         for(int i=11;i<20;i++){
             Color color = Color.rgb(60+20*(i-11),0,0);
             colorHashMap.put("grain"+i,color);
         }
-        for (int i = 0; i < 300; i++) {
-            for (int j = 0; j < 300; j++) {
-                if(board.nucleon[i][j].isrecry){
-                    board.board[i][j].state="grain"+(11+nucl);
-                }
-            }}
 
-        drawBoardString(board,1);
-        colorHashMap = tempMap;
-        for (int i = 0; i < 300; i++) {
-            for (int j = 0; j < 300; j++) {
-
-                board.board[i][j].state= brd[i][j].state;
-            }
-        }
+        drawBoardString2(board,1);
     }
 }

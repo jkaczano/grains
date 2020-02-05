@@ -26,7 +26,7 @@ public class Board {
             energy[i][j]=new Cell();
             energy[i][j].fillCell("");
             nucleon[i][j]=new Cell();
-            nucleon[i][j].fillCell("");
+            nucleon[i][j].fillCell("grain0");
             nucleon[i][j].isrecry=false;
         }
     }
@@ -36,7 +36,7 @@ public class Board {
     public void clearBoard(){
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                board[i][j].fillCell("");
+                board[i][j].fillCell("grain0");
                 //board[i][j].intrusion=0;
             }
         }

@@ -78,7 +78,7 @@ public class GameLogic {
     }
 
 
-    private String energy(int x,int y){
+    public String energy(int x,int y){
 
         int[] sameCellCount = new int[8];
         for(int i=0;i<8;i++)
